@@ -1,3 +1,5 @@
+import { WIDTH,HEIGHT } from "./constant.js";
+
 export default class MainScene extends Phaser.Scene{
     constructor() {
 		super({ key: 'mainScene' });
@@ -7,10 +9,11 @@ export default class MainScene extends Phaser.Scene{
         this.load.image('fuuka', "./asset/fuuka.png")
         this.load.image('kuromaru', "./asset/kuromaru.png")
     }
-
     create ()
     {
-        this.add.image(400, 300, 'fuuka');
-        this.add.image(400, 300, 'kuromaru');
+        var bg = this.add.image(WIDTH/2, HEIGHT/2, 'fuuka');
+        var player = this.add.image(WIDTH/2, HEIGHT/2+.2*HEIGHT, 'kuromaru');
+        player.setScale(.5);
+
     }
 }
