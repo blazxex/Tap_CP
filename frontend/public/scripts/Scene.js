@@ -12,7 +12,6 @@ export default class MainScene extends Phaser.Scene{
     create ()
     {
         var bg = this.add.image(WIDTH/2, HEIGHT/2, 'sky');
-
         this.input.on('pointerup', () =>
         {
             //TODO: send damge to server
