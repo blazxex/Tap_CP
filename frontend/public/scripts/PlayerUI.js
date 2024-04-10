@@ -25,6 +25,7 @@ export default class PlayerUI extends Phaser.Scene{
         var levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, 'level: 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
+        //TODO : select one -> disable other
         // element button
         var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.2,'card1');
         this.add.existing(card1);
@@ -43,7 +44,6 @@ export default class PlayerUI extends Phaser.Scene{
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
         });
-
 
     }
 
