@@ -11,6 +11,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('card1', "./asset/card1.png");
         this.load.image('card2', "./asset/card2.png");
         this.load.image('card3', "./asset/card3.png");
+        this.load.image('diamondSword', "./asset/diamond.png");
     }
     create (){
         //set up event
@@ -43,6 +44,14 @@ export default class PlayerUI extends Phaser.Scene{
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
+        });
+
+
+        // level up button
+        var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
+        this.add.existing(upgradeButton);
+        upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+            console.log("upgrade");
         });
 
     }
