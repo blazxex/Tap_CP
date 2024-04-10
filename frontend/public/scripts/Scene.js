@@ -1,4 +1,5 @@
 import { WIDTH,HEIGHT } from "./constant.js";
+import clickEvent from "./eventCenter.js";
 
 export default class MainScene extends Phaser.Scene{
     constructor() {
@@ -15,6 +16,7 @@ export default class MainScene extends Phaser.Scene{
         this.input.on('pointerup', () =>
         {
             //TODO: send damge to server
+            clickEvent.emit('OnClick');
             console.log("clicking");
         });
 
