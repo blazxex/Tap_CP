@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import scoreBoardSchema from "./scoreBoardSchema";
-import lastAttackUserSchema from "./lastAttackUserSchema";
-
+import scoreBoardSchema from "./scoreBoardModel";
+import lastAttackUserSchema from "./lastAttackUserModel";
 const { Schema } = mongoose;
 
 const bossSchema = new Schema({
