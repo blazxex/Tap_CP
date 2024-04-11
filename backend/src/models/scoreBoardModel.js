@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const scoreBoardSchema = new Schema({
-  rank: Number,
+  score: Number,
   userName: String,
-  userId: mongoose.Types.ObjectId, // Assuming User_ID is an ObjectId linking to a User collection
+  userId: mongoose.Types.ObjectId,
 });
 
 const ScoreBoard = mongoose.model("ScoreBoard", scoreBoardSchema);
