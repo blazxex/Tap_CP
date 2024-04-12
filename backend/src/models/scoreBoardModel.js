@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const scoreBoardSchema = new Schema({
-  userCookieId: mongoose.Types.ObjectId,
+  userCookieId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   score: Number,
   userName: String,
 });

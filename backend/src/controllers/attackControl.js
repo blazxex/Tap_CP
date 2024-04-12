@@ -5,40 +5,43 @@ import { updateScoreBoard } from "./scoreBoardControl.js";
 import Boss from "../models/bossModel.js";
 
 export const userAttack = async (req, res) => {
-  const { userId, bossId } = req.body;
+  const { userCookieId, bossId } = req.body;
 
   try {
-    const userItem = await Item.findOne({ userCookieId: userId });
+    const userItem = await Item.findOne({ userCookieId: userCookieId });
     if (!userItem) {
       return res.status(404).json({ error: "User item not found" });
     }
 
     const itemLevel = userItem.itemLevel;
-
-    // Update the boss's currentHp
-    const boss = await Boss.findById(bossId);
+    const boss = await Boss.findOne({ bossId: bossId });
     if (!boss) {
       return res.status(404).json({ error: "Boss not found" });
     }
 
-    boss.currentHp = Math.max(0, boss.currentHp - itemLevel); // Ensure HP doesn't go below zero
+    boss.currentHp = Math.max(0, boss.currentHp - itemLevel);
     await boss.save();
 
     // Update the user's score
     const scoreUpdateReq = {
-      body: { userId, score: itemLevel },
-      user: { _id: userId },
+      body: { userCookieId, score: itemLevel },
+      user: { userCookieId: userCookieId },
     };
     const scoreUpdateRes = {
       status: () => ({ json: (msg) => console.log(msg) }),
     };
-    await updateScoreBoard(scoreUpdateReq, scoreUpdateRes);
+    const updatedScoreBoard = await updateScoreBoard(
+      scoreUpdateReq,
+      scoreUpdateRes
+    );
+
+    if (!updatedScoreBoard) {
+      return res.status(500).json({ error: "Failed to update score" });
+    }
 
     // Return success response
     res.status(200).json({
       message: "Attack successful",
-      bossCurrentHp: boss.currentHp,
-      userScore: updatedScoreBoard.score,
     });
   } catch (err) {
     console.error(err);

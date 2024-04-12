@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  userCookieId: mongoose.Types.ObjectId,
+  userCookieId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true,
+  },
   userName: String,
   lastActivate: Date,
   ip: String,

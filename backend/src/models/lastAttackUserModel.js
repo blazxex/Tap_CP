@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 const lastAttackUserSchema = new Schema({
-  userId: mongoose.Types.ObjectId,
+  userCookieId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   userName: String,
   userScore: Number,
 });

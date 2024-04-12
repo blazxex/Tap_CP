@@ -7,7 +7,6 @@ const bossSchema = new Schema({
   bossName: String,
   totalHp: Number,
   currentHp: Number,
-  nextBoss: mongoose.Types.ObjectId, // Assuming this is a reference or name to the next boss
 });
 
 const Boss = mongoose.model("Boss", bossSchema);
