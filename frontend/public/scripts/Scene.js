@@ -1,5 +1,6 @@
 import { WIDTH,HEIGHT } from "./constant.js";
 import clickEvent from "./eventCenter.js";
+import { fetchUser, fetchBoss, attack } from "./api.js";
 
 export default class MainScene extends Phaser.Scene{
     constructor() {
@@ -8,6 +9,7 @@ export default class MainScene extends Phaser.Scene{
     preload ()
     {
         this.load.image('sky', "./asset/bg.png")
+        const user = fetchUser();
     }
     create ()
     {
@@ -20,9 +22,10 @@ export default class MainScene extends Phaser.Scene{
         this.input.on('pointerup', () =>
         {
             //TODO: send damge to server
+            attack();
             clickEvent.emit('OnClick');
             console.log("clicking");
         });
-
     }
+
 }
