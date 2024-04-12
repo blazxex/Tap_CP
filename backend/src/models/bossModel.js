@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const bossSchema = new Schema({
-  bossId: Number,
+  bossId: mongoose.Types.ObjectId,
   bossName: String,
   totalHp: Number,
   currentHp: Number,
-  nextBoss: String, // Assuming this is a reference or name to the next boss
+  nextBoss: mongoose.Types.ObjectId, // Assuming this is a reference or name to the next boss
 });
 
 const Boss = mongoose.model("Boss", bossSchema);

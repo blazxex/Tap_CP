@@ -23,7 +23,7 @@ export const createUser = async (req, res) => {
 
     //init user score
     const newScore = new ScoreBoard({
-      userId: newUser.userCookieId,
+      userCookieId: newUser.userCookieId,
       score: 0,
       userName: newUser.userName,
     });
