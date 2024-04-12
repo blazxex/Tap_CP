@@ -1,5 +1,7 @@
-export const WIDTH = 1920-50;
-export const HEIGHT = 1080-50;
+const screenWidth = window.screen.width;
+const screenHeight = window.screen.height;
+export const WIDTH = screenWidth;
+export const HEIGHT = screenHeight;
 // (0,0) is top left, WHY...
 
 // offset from orgin (WIDTH, HEIGHT) by offset 

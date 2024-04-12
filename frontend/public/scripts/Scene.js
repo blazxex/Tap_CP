@@ -12,6 +12,11 @@ export default class MainScene extends Phaser.Scene{
     create ()
     {
         var bg = this.add.image(WIDTH/2, HEIGHT/2, 'sky');
+        const scaleX = WIDTH / bg.width;
+        const scaleY = HEIGHT / bg.height;
+
+        // Determine the larger scale factor to ensure the image fits the screen
+        bg.setScale(.95*scaleX, .95*scaleY);
         this.input.on('pointerup', () =>
         {
             //TODO: send damge to server
