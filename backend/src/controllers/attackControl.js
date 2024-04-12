@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import Item from "../models/itemModel.js";
 import ScoreBoard from "../models/scoreBoardModel.js";
 import { updateScoreBoard } from "./scoreBoardControl.js";
-import Boss from "../models/bossModel.js"; // ensure you import the Boss model
+import Boss from "../models/bossModel.js";
 
 export const userAttack = async (req, res) => {
   const { userId, bossId } = req.body;
