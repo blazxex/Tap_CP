@@ -3,6 +3,7 @@ import cors from "cors";
 
 import UserRoute from "./routes/userRoute.js";
 import scoreBoardRoute from "./routes/scoreBoardRoute.js";
+import attackRoute from "./routes/attackRoute.js";
 
 const app = express();
 
@@ -17,5 +18,6 @@ app.use(cors());
 
 app.use("/users", UserRoute);
 app.use("/board", scoreBoardRoute);
+app.use("/attack", attackRoute);
 
 export default app;

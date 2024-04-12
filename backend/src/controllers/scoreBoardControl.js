@@ -4,17 +4,16 @@ export const updateScoreBoard = async (req, res) => {
   try {
     const { userId, score } = req.body;
 
+    // Validate input
+    if (!mongoose.Types.ObjectId.isValid(userId) || typeof score !== "number") {
+      return res.status(400).json({ error: "Invalid userId or score" });
+    }
+
     const updatedScoreBoard = await ScoreBoard.findOneAndUpdate(
       { userId: userId },
-      { score: score },
-      { new: true }
+      { $inc: { score: score } }, // Increment score
+      { new: true, upsert: true } // Create a new entry if one doesn't exist
     );
-
-    if (!updatedScoreBoard) {
-      return res
-        .status(404)
-        .json({ error: "Scoreboard entry not found for the user." });
-    }
 
     res.status(200).json(updatedScoreBoard);
   } catch (err) {

@@ -1,18 +1,34 @@
 import User from "../models/userModel.js";
+import Item from "../models/itemModel.js";
+import ScoreBoard from "../models/scoreBoardModel.js";
 
 export const createUser = async (req, res) => {
   try {
+    //init user data
     const newUser = new User({
       userCookieId: req.body.userCookieId,
       userName: req.body.userName,
       lastActivate: req.body.lastActivate,
       ip: req.body.ip,
-      item: req.body.item,
-      itemLevel: req.body.itemLevel,
-      userScore: req.body.userScore,
     });
-
     await newUser.save();
+
+    //init user item
+    const newItem = new Item({
+      userCookieId: newUser.userCookieId,
+      item: "Initial Item",
+      itemLevel: 1,
+    });
+    await newItem.save();
+
+    //init user score
+    const newScore = new ScoreBoard({
+      userId: newUser.userCookieId,
+      score: 0,
+      userName: newUser.userName,
+    });
+    await newScore.save();
+
     res.status(200).json({ message: "User created successfully." });
   } catch (err) {
     console.error(err);
