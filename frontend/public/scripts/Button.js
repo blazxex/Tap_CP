@@ -10,11 +10,11 @@ export default class Button extends Phaser.GameObjects.Container{
         this.setSize(img.width*scale, img.height*scale);
         this.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
-                console.log('hover')
+                // console.log('hover')
                 img.setAlpha(0.5)//set image opacity to 0.5
             })
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT,()=>{
-                console.log('out')
+                // console.log('out')
                 img.setAlpha(1)//set image opacity to 1
             })
     }
