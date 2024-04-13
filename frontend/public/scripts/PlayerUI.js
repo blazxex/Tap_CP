@@ -13,7 +13,6 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('card1', "./asset/card1.png");
         this.load.image('card2', "./asset/card2.png");
         this.load.image('card3', "./asset/card3.png");
-        this.load.image('scard', "./asset/scard.png");
         this.load.image('diamondSword', "./asset/diamond.png");
     }
 
