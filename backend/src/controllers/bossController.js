@@ -1,26 +1,30 @@
 import mongoose from "mongoose";
 import Boss from "../models/bossModel.js"; // Ensure the path is correct
+function getRandomBossName() {
+  const names = [
+    "mockBoss1",
+    "mockBoss2",
+    "mockBoss3",
+    "mockBoss4",
+    "mockBoss5",
+  ];
+  return names[Math.floor(Math.random() * names.length)];
+}
 
+function getRandomHealth() {
+  return (Math.floor(Math.random() * 100) + 50) * 10;
+}
 export const createBoss = async (req, res) => {
   try {
-    const { bossName, totalHp, currentHp, nextBoss } = req.body;
-
-    // Validate input
-    if (
-      typeof bossName !== "string" ||
-      typeof totalHp !== "number" ||
-      typeof currentHp !== "number" ||
-      (nextBoss && !mongoose.Types.ObjectId.isValid(nextBoss))
-    ) {
-      return res.status(400).json({ error: "Invalid data provided" });
-    }
+    const bossName = getRandomBossName();
+    const totalHp = getRandomHealth();
+    const currentHp = totalHp;
 
     const newBoss = new Boss({
       bossId: new mongoose.Types.ObjectId(),
       bossName,
       totalHp,
       currentHp,
-      nextBoss: nextBoss ? new mongoose.Types.ObjectId(nextBoss) : null, // Convert nextBoss to ObjectId if provided
     });
 
     // Save the new boss to the database

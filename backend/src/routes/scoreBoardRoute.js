@@ -1,6 +1,6 @@
 import express from "express";
 
-import * as scoreBoardController from "../controllers/scoreBoardControl.js";
+import * as scoreBoardController from "../controllers/scoreBoardController.js";
 
 const router = express.Router();
 

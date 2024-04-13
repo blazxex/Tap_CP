@@ -5,6 +5,7 @@ import UserRoute from "./routes/userRoute.js";
 import scoreBoardRoute from "./routes/scoreBoardRoute.js";
 import attackRoute from "./routes/attackRoute.js";
 import bossRoute from "./routes/bossRoute.js";
+import itemRoute from "./routes/itemRoute.js";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use("/users", UserRoute);
 app.use("/board", scoreBoardRoute);
 app.use("/boss", bossRoute);
 app.use("/attack", attackRoute);
+app.use("/items", itemRoute);
 
 export default app;

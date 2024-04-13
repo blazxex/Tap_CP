@@ -13,19 +13,19 @@ export const userAttack = async (req, res) => {
       return res.status(404).json({ error: "User item not found" });
     }
 
-    const itemLevel = userItem.itemLevel;
+    const attackPower = userItem.attackPower;
     const boss = await Boss.findOne({ bossId: bossId });
     if (!boss) {
       return res.status(404).json({ error: "Boss not found" });
     }
 
-    boss.currentHp = Math.max(0, boss.currentHp - itemLevel);
+    boss.currentHp = Math.max(0, boss.currentHp - attackPower);
     await boss.save();
 
     // Update the user's score
     const updatedScoreBoard = await ScoreBoard.findOneAndUpdate(
       { userCookieId: userCookieId },
-      { $inc: { score: itemLevel } }, // Increment score
+      { $inc: { score: attackPower } }, // Increment score
       { new: true, upsert: true } // Create a new entry if one doesn't exist
     );
     if (!updatedScoreBoard) {

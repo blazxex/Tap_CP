@@ -1,35 +1,51 @@
 import Item from "../models/itemModel.js";
 
-export const createItem = async (req, res) => {
-  try {
-    const newItem = new Item(req.body);
-    await newItem.save();
+const attackPowerMap = new Map([
+  ["Initial Item_1", 1],
+  ["Initial Item_2", 20],
+  ["Initial Item_3", 25],
+  ["Axe_2", 30],
+]);
 
-    res.status(200).json({ message: "OK" });
-  } catch (err) {
-    if (err.name === "ValidationError") {
-      res.status(400).json({ error: "Bad Request" });
-    } else {
-      res.status(500).json({ error: "Internal server error." });
-    }
-  }
-};
+// Function to get attackPower from the map
+function getAttackPower(itemName, itemLevel) {
+  return attackPowerMap.get(`${itemName}_${itemLevel}`) || 5;
+}
 
 export const getItems = async (req, res) => {
-  const items = await Item.find();
+  const { userCookieId } = req.body;
+  const items = await Item.find({
+    userCookieId: userCookieId,
+  });
 
   res.status(200).json(items);
 };
 
-export const deleteItem = async (req, res) => {
-  // TODO2: implement this function
-  // HINT: you can serve the internet and find what method to use for deleting item.
-  res.status(501).send("Unimplemented");
-};
+export const updateItem = async (req, res) => {
+  try {
+    const { userCookieId, itemName } = req.body;
+    const items = await Item.findOne({
+      userCookieId: userCookieId,
+    });
+    console.log(items);
+    const itemLevel = parseInt(items.itemLevel) + 1;
+    const attackPower = getAttackPower(itemName, itemLevel);
 
-export const filterItems = async (req, res) => {
-  // TODO3: implement this filter function
-  // WARNING: you are not allowed to query all items and do something to filter it afterward.
-  // Otherwise, you will be punished by -0.5 scores for this part
-  res.status(501).send("Unimplemented");
+    const updatedItem = await Item.findOneAndUpdate(
+      { userCookieId: userCookieId },
+      { attackPower: attackPower, itemLevel: itemLevel },
+      { new: true }
+    );
+    console.log(updateItem);
+
+    if (updatedItem) {
+      res.json({ message: "Item updated successfully", updatedItem });
+    } else {
+      res.status(404).json({ message: "Item not found" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error processing your request", error: error.message });
+  }
 };
