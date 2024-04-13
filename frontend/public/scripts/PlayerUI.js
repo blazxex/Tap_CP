@@ -1,7 +1,6 @@
 import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
 import clickEvent from "./eventCenter.js";
 import Button from "./Button.js";
-import Scoreboard from "./Scoreboard.js";
 
 export default class PlayerUI extends Phaser.Scene{
     constructor() {
@@ -74,21 +73,6 @@ export default class PlayerUI extends Phaser.Scene{
             console.log("upgrade");
         });
 
-        // Example scores
-        var scores = [
-            { name: 'Player 1', value: 100 },
-            { name: 'Player 2', value: 80 },
-            { name: 'Player 3', value: 120 }
-        ];
-
-        // Create the scoreboard
-        this.scoreboard = new Scoreboard(this, WIDTH/4, HEIGHT/4, scores);
-
-        // Example of updating scores dynamically
-        setTimeout(() => {
-            scores[0].value = 150;
-            this.scoreboard.updateScores(scores);
-        }, 3000);
     }
 
     onClickHandler(){
