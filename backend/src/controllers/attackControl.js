@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Item from "../models/itemModel.js";
 import ScoreBoard from "../models/scoreBoardModel.js";
-import { updateScoreBoard } from "./scoreBoardControl.js";
+
 import Boss from "../models/bossModel.js";
 
 export const userAttack = async (req, res) => {
@@ -23,20 +23,13 @@ export const userAttack = async (req, res) => {
     await boss.save();
 
     // Update the user's score
-    const scoreUpdateReq = {
-      body: { userCookieId, score: itemLevel },
-      user: { userCookieId: userCookieId },
-    };
-    const scoreUpdateRes = {
-      status: () => ({ json: (msg) => console.log(msg) }),
-    };
-    const updatedScoreBoard = await updateScoreBoard(
-      scoreUpdateReq,
-      scoreUpdateRes
+    const updatedScoreBoard = await ScoreBoard.findOneAndUpdate(
+      { userCookieId: userCookieId },
+      { $inc: { score: itemLevel } }, // Increment score
+      { new: true, upsert: true } // Create a new entry if one doesn't exist
     );
-
     if (!updatedScoreBoard) {
-      return res.status(500).json({ error: "Failed to update score" });
+      return res.status(404).json({ error: "Scre update failed" });
     }
 
     // Return success response
