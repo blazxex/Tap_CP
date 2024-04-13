@@ -2,11 +2,16 @@ import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
 import clickEvent from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
+import { fetchUser } from "./api.js";
+import scoreManager from "./ScoreManager.js";
 
 export default class PlayerUI extends Phaser.Scene{
+
     constructor() {
 		super({ key: 'PlayerUI',active:true });
         this.selectedCard = null;
+        this.levelText = null;
+        this.pointText = null;
 	}
     preload (){
         this.load.image('kuromaru', "./asset/kuromaru.png")
@@ -31,15 +36,16 @@ export default class PlayerUI extends Phaser.Scene{
 
     create (){
         //set up event
-        clickEvent.on('OnClick', this.onClickHandler, this)
+        clickEvent.on('OnClick', score => this.onClickHandler(score), this)
 
         // player image
         var kuro = this.add.image(WIDTH/2, OffsetFromOrigin(HEIGHT,.3), 'kuromaru').setScale(.5);
 
         // text
         //TODO : have to fetch point data from server
-        var pointText = this.add.text(.7*WIDTH, .4*HEIGHT, 'point : 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
-        var levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, 'level: 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+
+        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, 'point : 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, 'level: 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         //TODO : select one -> disable other
@@ -90,8 +96,9 @@ export default class PlayerUI extends Phaser.Scene{
         }, 3000);
     }
 
-    onClickHandler(){
+    onClickHandler(score){
         // console.log('receive event')
+        this.pointText.setText(`point : ${score}`)
         //TODO : for animation.
     }
 

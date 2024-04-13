@@ -3,7 +3,6 @@ import { BACKEND_URL } from "./config.js";
 export async function fetchUser(){
     try{
         const user = await fetch(`${BACKEND_URL}/users`).then((r) => r.json());
-        // console.log(user);
         return user;
     }
     catch(e){
