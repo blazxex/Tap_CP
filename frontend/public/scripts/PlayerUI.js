@@ -15,10 +15,16 @@ export default class PlayerUI extends Phaser.Scene{
 	}
     preload (){
         this.load.image('kuromaru', "./asset/kuromaru.png")
+        this.load.image('playerImg',"./asset/player.png")
         this.load.image('card1', "./asset/card1.png");
         this.load.image('card2', "./asset/card2.png");
         this.load.image('card3', "./asset/card3.png");
         this.load.image('diamondSword', "./asset/diamond.png");
+        //load sprite sheet
+        this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
+            frameWidth:256,
+            frameHeight:256
+        });
     }
 
     selectCard(clickedCard) {
@@ -39,7 +45,16 @@ export default class PlayerUI extends Phaser.Scene{
         clickEvent.on('OnClick', score => this.onClickHandler(score), this)
 
         // player image
-        var kuro = this.add.image(WIDTH/2, OffsetFromOrigin(HEIGHT,.3), 'kuromaru').setScale(.5);
+        // var kuro = this.add.image(WIDTH/2, OffsetFromOrigin(HEIGHT,.3), 'playerImg').setScale(1);
+        var player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
+        this.anims.create({
+            key:"player-Idle",
+            frames: this.anims.generateFrameNumbers("player-IDLE"),
+            frameRate:4,
+            repeat:-1
+        })
+
+        player.play("player-Idle");
 
         // text
         //TODO : have to fetch point data from server
