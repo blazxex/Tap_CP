@@ -1,9 +1,9 @@
 import express from "express";
 
-import * as bossControl from "../controllers/bossControl.js";
+import * as bossControl from "../controllers/bossController.js";
 
 const router = express.Router();
 
-router.post("/", bossControl.createBoss);
+router.get("/", bossControl.createBoss);
 
 export default router;

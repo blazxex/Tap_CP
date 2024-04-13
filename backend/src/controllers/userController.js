@@ -18,6 +18,7 @@ export const createUser = async (req, res) => {
       userCookieId: newUser.userCookieId,
       item: "Initial Item",
       itemLevel: 1,
+      attackPower: 1,
     });
     await newItem.save();
 
