@@ -3,13 +3,14 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  userCookieId: String,
+  userCookieId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true,
+  },
   userName: String,
   lastActivate: Date,
   ip: String,
-  item: String,
-  itemLevel: Number,
-  userScore: Number,
 });
 
 const User = mongoose.model("User", userSchema);

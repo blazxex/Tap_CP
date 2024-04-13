@@ -1,15 +1,19 @@
 import { WIDTH,HEIGHT } from "./constant.js";
 import clickEvent from "./eventCenter.js";
+import { fetchUser, fetchBoss, attack } from "./api.js";
+import { user } from "./config.js";
+import scoreManager from "./ScoreManager.js";
 
 export default class MainScene extends Phaser.Scene{
     constructor() {
 		super({ key: 'mainScene',active:true});
+        this.scoreManger = new scoreManager();
 	}
-    preload ()
+    async preload ()
     {
         this.load.image('sky', "./asset/bg.png")
     }
-    create ()
+    async create ()
     {
         var bg = this.add.image(WIDTH/2, HEIGHT/2, 'sky');
         const scaleX = WIDTH / bg.width;
@@ -19,10 +23,12 @@ export default class MainScene extends Phaser.Scene{
         bg.setScale(.95*scaleX, .95*scaleY);
         this.input.on('pointerup', () =>
         {
-            //TODO: send damge to server
-            clickEvent.emit('OnClick');
+            // attack
+            attack(user[0].userCookieId,"6619670c38ef6cdc4ac6b7e7");
+            this.scoreManger.IncreaseScore(); // TODO : if attack sucess -> increase score
+            clickEvent.emit('OnClick',this.scoreManger.currScore); // emit event with score
             console.log("clicking");
         });
-
     }
 }
+
