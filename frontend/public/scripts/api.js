@@ -3,7 +3,7 @@ import { BACKEND_URL } from "./config.js";
 export async function fetchUser(){
     try{
         const user = await fetch(`${BACKEND_URL}/users`).then((r) => r.json());
-        console.log(user);
+        // console.log(user);
         return user;
     }
     catch(e){
@@ -11,7 +11,7 @@ export async function fetchUser(){
     }
 }
 
-export async function attack(){
+export async function attack(_userId, bossId){
     try{
         await fetch(`${BACKEND_URL}/attack`, {
             method: "POST",
@@ -19,7 +19,7 @@ export async function attack(){
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
-                userId : "507f1f77bcf86cd799439011",
+                userId : _userId,
                 bossId : "6619670c38ef6cdc4ac6b7e7" 
             })
         }) 

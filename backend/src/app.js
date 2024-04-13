@@ -21,6 +21,5 @@ app.use("/users", UserRoute);
 app.use("/board", scoreBoardRoute);
 app.use("/boss", bossRoute);
 app.use("/attack", attackRoute);
-//TODO : can i get boss Route🥺
 
 export default app;

@@ -9,10 +9,10 @@ export default class MainScene extends Phaser.Scene{
     preload ()
     {
         this.load.image('sky', "./asset/bg.png")
-        const user = fetchUser();
     }
-    create ()
+    async create ()
     {
+        const user = await fetchUser();
         var bg = this.add.image(WIDTH/2, HEIGHT/2, 'sky');
         const scaleX = WIDTH / bg.width;
         const scaleY = HEIGHT / bg.height;
@@ -22,7 +22,7 @@ export default class MainScene extends Phaser.Scene{
         this.input.on('pointerup', () =>
         {
             //TODO: send damge to server
-            attack();
+            attack(user[0].userCookieId,"6619670c38ef6cdc4ac6b7e7");
             clickEvent.emit('OnClick');
             console.log("clicking");
         });
