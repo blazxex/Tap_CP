@@ -18,7 +18,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('card2', "./asset/card2.png");
         this.load.image('card3', "./asset/card3.png");
         this.load.image('diamondSword', "./asset/diamond.png");
-        //load sprite sheet
+        //* load sprite sheet
         this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
             frameWidth:256,
             frameHeight:256
@@ -33,24 +33,12 @@ export default class PlayerUI extends Phaser.Scene{
         });
     }
 
-    selectCard(clickedCard) {
-        // If another card is already selected, disable it
-        if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
-            this.selectedCard.whiteFill.setAlpha(0); 
-            console.log(`Cleared tint and enabled interaction for previously selected card: ${this.selectedCard.name}`);
-        }
-    
-        // Update the selected card
-        this.selectedCard = clickedCard;
-        this.selectedCard.whiteFill.setAlpha(1); 
-        console.log(`Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`);
-    }
 
     create (){
-        //set up event
+        //* set up event
         clickEvent.on('OnClick', score => this.onClickHandler(score), this)
 
-        // player image
+        //* Setup player image
         this.player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
         this.anims.create({
             key:"player-Idle",
@@ -70,18 +58,14 @@ export default class PlayerUI extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("player-attack-2"),
             frameRate:4,
         })
-
         this.player.play("player-Idle");
 
-        // text
-        //TODO : have to fetch point data from server
-
+        //* Level text and Score text
         this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, 'point : 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
         this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, 'level: 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
-        //TODO : select one -> disable other
-        // element button
+        //* Card button
         var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.2,'card1','card01');
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
@@ -104,7 +88,7 @@ export default class PlayerUI extends Phaser.Scene{
         });
 
 
-        // level up button
+        //* Level Up Button
         var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
         this.add.existing(upgradeButton);
         upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
@@ -114,14 +98,25 @@ export default class PlayerUI extends Phaser.Scene{
     }
 
     onClickHandler(score){
-        // console.log('receive event')
         this.pointText.setText(`point : ${score}`)
+        // for animation
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);
         this.player.chain([ 'player-Attack-'+mode, 'player-Idle']);
-        //TODO : for animation.
     }
 
+    selectCard(clickedCard) {
+        // If another card is already selected, disable it
+        if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
+            this.selectedCard.whiteFill.setAlpha(0); 
+            console.log(`Cleared tint and enabled interaction for previously selected card: ${this.selectedCard.name}`);
+        }
+    
+        // Update the selected card
+        this.selectedCard = clickedCard;
+        this.selectedCard.whiteFill.setAlpha(1); 
+        console.log(`Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`);
+    }
 
 }
 
