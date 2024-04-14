@@ -1,40 +1,61 @@
 import User from "../models/userModel.js";
 import Item from "../models/itemModel.js";
 import ScoreBoard from "../models/scoreBoardModel.js";
-
 import Boss from "../models/bossModel.js";
 
 export const userAttack = async (req, res) => {
   const { userCookieId, bossId } = req.body;
 
   try {
-    const userItem = await Item.findOne({ userCookieId: userCookieId });
+    // Retrieve the user item and boss concurrently
+    const [userItem, boss] = await Promise.all([
+      Item.findOne({ userCookieId: userCookieId }).lean(),
+      Boss.findOne({ bossId: bossId }).lean(),
+    ]);
+
     if (!userItem) {
       return res.status(404).json({ error: "User item not found" });
     }
 
-    const attackPower = userItem.attackPower;
-    const boss = await Boss.findOne({ bossId: bossId });
     if (!boss) {
       return res.status(404).json({ error: "Boss not found" });
     }
 
-    boss.currentHp = Math.max(0, boss.currentHp - attackPower);
-    await boss.save();
+    // Update user's last activation time and boss's HP concurrently
+    const currentTime = Date.now();
+    const updatedUserPromise = User.findOneAndUpdate(
+      { userCookieId: userCookieId },
+      { $set: { lastActivate: currentTime } },
+      { new: true }
+    );
+
+    boss.currentHp = Math.max(0, boss.currentHp - userItem.attackPower);
+    const updatedBossPromise = Boss.findByIdAndUpdate(boss._id, boss);
 
     // Update the user's score
-    const updatedScoreBoard = await ScoreBoard.findOneAndUpdate(
+    const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
       { userCookieId: userCookieId },
-      { $inc: { score: attackPower } }, // Increment score
-      { new: true, upsert: true } // Create a new entry if one doesn't exist
+      { $inc: { score: userItem.attackPower } },
+      { new: true, upsert: true }
     );
+
+    // Execute updates concurrently
+    const [updatedUser, updatedBoss, updatedScoreBoard] = await Promise.all([
+      updatedUserPromise,
+      updatedBossPromise,
+      updatedScoreBoardPromise,
+    ]);
+
     if (!updatedScoreBoard) {
-      return res.status(404).json({ error: "Scre update failed" });
+      return res.status(404).json({ error: "Score update failed" });
     }
 
     // Return success response
     res.status(200).json({
       message: "Attack successful",
+      user: updatedUser,
+      boss: updatedBoss,
+      score: updatedScoreBoard.score,
     });
   } catch (err) {
     console.error(err);
