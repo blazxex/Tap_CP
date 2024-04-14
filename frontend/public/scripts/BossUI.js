@@ -12,5 +12,13 @@ export default class BossUI extends Phaser.Scene{
     {
         var boss = this.add.image(WIDTH/2, HEIGHT/2, 'rei')
         boss.setScale(2);
+        const tween = this.add.tween({
+            targets: boss,
+            y: HEIGHT/2-50,
+            duration: 1000,
+            yoyo: true,
+            ease: 'Quad.inOut',
+            repeat: -1
+        });
     }
 }
