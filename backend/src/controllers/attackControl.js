@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import Item from "../models/itemModel.js";
 import ScoreBoard from "../models/scoreBoardModel.js";
 import Boss from "../models/bossModel.js";
-
+import { createBoss } from "./bossController.js";
 export const userAttack = async (req, res) => {
   const { userCookieId, bossId } = req.body;
 
@@ -30,6 +30,11 @@ export const userAttack = async (req, res) => {
     );
 
     boss.currentHp = Math.max(0, boss.currentHp - userItem.attackPower);
+    if (boss.currentHp === 0) {
+      await Boss.deleteOne({ bossId: bossId });
+      createBoss();
+    }
+
     const updatedBossPromise = Boss.findByIdAndUpdate(boss._id, boss);
 
     // Update the user's score
