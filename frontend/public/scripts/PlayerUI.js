@@ -2,6 +2,7 @@ import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
 import clickEvent from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
+import { DATA_KEYS, dataManager } from "./DataManager.js";
 
 export default class PlayerUI extends Phaser.Scene{
 
@@ -36,7 +37,7 @@ export default class PlayerUI extends Phaser.Scene{
 
     create (){
         //* set up event
-        clickEvent.on('OnClick', score => this.onClickHandler(score), this)
+        clickEvent.on('OnClick',this.onClickHandler, this)
 
         //* Setup player image
         this.player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
@@ -97,8 +98,8 @@ export default class PlayerUI extends Phaser.Scene{
 
     }
 
-    onClickHandler(score){
-        this.pointText.setText(`point : ${score}`)
+    onClickHandler(){
+        this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
         // for animation
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);
