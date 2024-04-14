@@ -5,11 +5,14 @@ import ScoreBoard from "../models/scoreBoardModel.js";
 export const createUser = async (req, res) => {
   try {
     //init user data
+    const { userCookieId, userName, ip } = req.body;
+    const d = new Date();
+    let time = d.getTime();
     const newUser = new User({
-      userCookieId: req.body.userCookieId,
-      userName: req.body.userName,
-      lastActivate: req.body.lastActivate,
-      ip: req.body.ip,
+      userCookieId: userCookieId,
+      userName: userName,
+      lastActivate: time,
+      ip: ip,
     });
     await newUser.save();
 
@@ -42,9 +45,22 @@ export const createUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  const users = await User.find();
+  const userCookieId = req.query.userCookieId;
 
-  res.status(200).json(users);
+  if (!userCookieId) {
+    return res.status(400).json({ message: "No userCookieId provided" });
+  }
+
+  try {
+    const user = await User.findOne({ userCookieId: userCookieId });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving user", error: error });
+  }
 };
 
 export const deleteUser = async (req, res) => {
