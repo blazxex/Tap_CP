@@ -23,6 +23,14 @@ export default class PlayerUI extends Phaser.Scene{
             frameWidth:256,
             frameHeight:256
         });
+        this.load.spritesheet("player-attack-1", "./asset/player-attack-Sheet.png",{
+            frameWidth:256,
+            frameHeight:256
+        });
+        this.load.spritesheet("player-attack-2", "./asset/player-attack-left-Sheet.png",{
+            frameWidth:256,
+            frameHeight:256
+        });
     }
 
     selectCard(clickedCard) {
@@ -43,8 +51,7 @@ export default class PlayerUI extends Phaser.Scene{
         clickEvent.on('OnClick', score => this.onClickHandler(score), this)
 
         // player image
-        // var kuro = this.add.image(WIDTH/2, OffsetFromOrigin(HEIGHT,.3), 'playerImg').setScale(1);
-        var player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
+        this.player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
         this.anims.create({
             key:"player-Idle",
             frames: this.anims.generateFrameNumbers("player-IDLE"),
@@ -52,7 +59,19 @@ export default class PlayerUI extends Phaser.Scene{
             repeat:-1
         })
 
-        player.play("player-Idle");
+        this.anims.create({
+            key:"player-Attack-1",
+            frames: this.anims.generateFrameNumbers("player-attack-1"),
+            frameRate:4,
+        })
+
+        this.anims.create({
+            key:"player-Attack-2",
+            frames: this.anims.generateFrameNumbers("player-attack-2"),
+            frameRate:4,
+        })
+
+        this.player.play("player-Idle");
 
         // text
         //TODO : have to fetch point data from server
@@ -97,8 +116,15 @@ export default class PlayerUI extends Phaser.Scene{
     onClickHandler(score){
         // console.log('receive event')
         this.pointText.setText(`point : ${score}`)
+        let mode = getRndInteger(1,2);
+        this.player.play('player-Attack-'+mode);
+        this.player.chain([ 'player-Attack-'+mode, 'player-Idle']);
         //TODO : for animation.
     }
 
 
+}
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
