@@ -68,7 +68,6 @@ export async function attack(){
 export async function fetchBoss(){
     try{
         const boss = await fetch(`${BACKEND_URL}/boss/current`).then((r) => r.json());
-        console.log(boss);
         return boss;
     }
     catch(e){

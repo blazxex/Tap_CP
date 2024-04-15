@@ -32,6 +32,9 @@ export default class PlayerUI extends Phaser.Scene{
             frameWidth:256,
             frameHeight:256
         });
+        
+        // sfx
+        this.load.audio('hit', "./asset/sfx/hit.wav");
     }
 
 
@@ -88,6 +91,11 @@ export default class PlayerUI extends Phaser.Scene{
             this.selectCard(card3);
         });
 
+        //* hit sound
+        this.hitSound = this.sound.add('hit');
+        this.hitSound.setVolume(0.2);
+
+
 
         // //* Level Up Button
         // var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
@@ -111,6 +119,8 @@ export default class PlayerUI extends Phaser.Scene{
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);
         this.player.chain('player-Idle');
+        //sound
+        this.hitSound.play();
     }
 
     selectCard(clickedCard) {
