@@ -19,7 +19,7 @@ export default class MainScene extends Phaser.Scene{
         const scaleY = HEIGHT / bg.height;
 
         // Determine the larger scale factor to ensure the image fits the screen
-        bg.setScale(.95*scaleX, .95*scaleY);
+        bg.setScale(scaleX,scaleY);
         this.input.on('pointerup', () =>
         {
             // attack
