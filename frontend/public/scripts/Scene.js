@@ -23,12 +23,9 @@ export default class MainScene extends Phaser.Scene{
         this.input.on('pointerup', async () =>
         {
             // attack
-            // TODO : fetch boss is create boss LUL
-            // const boss = fetchBoss();
-            //TODO : fix this shit
-            const res = await attack(localStorage.getItem("userCookieId"),"6619670c38ef6cdc4ac6b7e7");
+            const res = await attack();
             if(res.message === "Attack successful"){
-                dataManager.store.values.PLAYER_POINT+=1;
+                dataManager.store.values.userScore+=1;
                 clickEvent.emit('OnClick'); // emit event with score
             }
             console.log("clicking");

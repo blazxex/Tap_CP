@@ -2,7 +2,7 @@ import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
 import clickEvent from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
-import { DATA_KEYS, dataManager } from "./DataManager.js";
+import { dataManager } from "./DataManager.js";
 
 export default class PlayerUI extends Phaser.Scene{
 
@@ -62,8 +62,8 @@ export default class PlayerUI extends Phaser.Scene{
         this.player.play("player-Idle");
 
         //* Level text and Score text
-        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, `point : ${dataManager.store.values.PLAYER_POINT}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
-        this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, `level : ${dataManager.store.values.PLAYER_LEVEL}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, `Score : ${dataManager.store.values.userScore}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        // this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, `level : ${dataManager.store.values.PLAYER_LEVEL}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         //* Card button
@@ -106,7 +106,7 @@ export default class PlayerUI extends Phaser.Scene{
     }
 
     onClickHandler(){
-        this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
+        this.pointText.setText(`Score : ${dataManager.store.values.userScore}`)
         // for animation
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);

@@ -36,7 +36,16 @@ export async function fetchUser(){
     }
 }
 
-export async function attack(_userId, bossId){
+export async function fetchUserScore(){
+    const userScore = await fetch(`${BACKEND_URL}/board/user?userCookieId=${localStorage.getItem("userCookieId")}`).then((r) => r.json());
+    return userScore;
+
+}
+
+export async function attack(){
+    const uci = localStorage.getItem("userCookieId");
+    const boss = await fetchBoss();
+
     try{
         const res = await fetch(`${BACKEND_URL}/attack`, {
             method: "POST",
@@ -44,8 +53,8 @@ export async function attack(_userId, bossId){
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
-                userCookieId: _userId,
-                bossId : "661c058e8bf520e1501b453b" 
+                userCookieId: uci,
+                bossId : boss.bossId 
             })
         }) 
         .then((response) => response.json())
@@ -58,7 +67,7 @@ export async function attack(_userId, bossId){
 
 export async function fetchBoss(){
     try{
-        const boss = await fetch(`${BACKEND_URL}/boss`).then((r) => r.json());
+        const boss = await fetch(`${BACKEND_URL}/boss/current`).then((r) => r.json());
         console.log(boss);
         return boss;
     }
