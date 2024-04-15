@@ -89,19 +89,19 @@ export default class PlayerUI extends Phaser.Scene{
         });
 
 
-        //* Level Up Button
-        var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
-        this.add.existing(upgradeButton);
-        upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-            console.log("upgrade");
-            // check if point is more than theldsole
-            if(dataManager.store.values.PLAYER_POINT >= 10){
-                dataManager.store.values.PLAYER_POINT -= 10;
-                dataManager.store.values.PLAYER_LEVEL+=1;
-                this.levelText.setText(`level : ${dataManager.store.values.PLAYER_LEVEL}`)
-                this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
-            }
-        });
+        // //* Level Up Button
+        // var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
+        // this.add.existing(upgradeButton);
+        // upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+        //     console.log("upgrade");
+        //     // check if point is more than theldsole
+        //     if(dataManager.store.values.PLAYER_POINT >= 10){
+        //         dataManager.store.values.PLAYER_POINT -= 10;
+        //         dataManager.store.values.PLAYER_LEVEL+=1;
+        //         this.levelText.setText(`level : ${dataManager.store.values.PLAYER_LEVEL}`)
+        //         this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
+        //     }
+        // });
 
     }
 

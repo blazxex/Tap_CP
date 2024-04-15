@@ -20,13 +20,17 @@ export default class MainScene extends Phaser.Scene{
 
         // Determine the larger scale factor to ensure the image fits the screen
         bg.setScale(scaleX,scaleY);
-        this.input.on('pointerup', () =>
+        this.input.on('pointerup', async () =>
         {
             // attack
-            attack(localStorage.getItem("userCookieId"),"6619670c38ef6cdc4ac6b7e7");
-            // this.scoreManger.IncreaseScore(); // TODO : if attack sucess -> increase score
-            dataManager.store.values.PLAYER_POINT+=1;
-            clickEvent.emit('OnClick'); // emit event with score
+            // TODO : fetch boss is create boss LUL
+            // const boss = fetchBoss();
+            //TODO : fix this shit
+            const res = await attack(localStorage.getItem("userCookieId"),"6619670c38ef6cdc4ac6b7e7");
+            if(res.message === "Attack successful"){
+                dataManager.store.values.PLAYER_POINT+=1;
+                clickEvent.emit('OnClick'); // emit event with score
+            }
             console.log("clicking");
         });
     }

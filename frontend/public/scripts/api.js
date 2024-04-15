@@ -38,18 +38,18 @@ export async function fetchUser(){
 
 export async function attack(_userId, bossId){
     try{
-        await fetch(`${BACKEND_URL}/attack`, {
+        const res = await fetch(`${BACKEND_URL}/attack`, {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
                 userCookieId: _userId,
-                bossId : "6619670c38ef6cdc4ac6b7e7" 
+                bossId : "661c058e8bf520e1501b453b" 
             })
         }) 
         .then((response) => response.json())
-        .then((json) => console.log(json));
+        return res;
     }
     catch(e){
         console.log("can't attack");
@@ -57,7 +57,14 @@ export async function attack(_userId, bossId){
 }
 
 export async function fetchBoss(){
-    // TODO : fetch boss here
+    try{
+        const boss = await fetch(`${BACKEND_URL}/boss`).then((r) => r.json());
+        console.log(boss);
+        return boss;
+    }
+    catch(e){
+        console.log("can't attack");
+    }
 }
 
 function generateUserCookieId() {
