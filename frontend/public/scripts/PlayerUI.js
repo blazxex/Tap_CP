@@ -62,8 +62,8 @@ export default class PlayerUI extends Phaser.Scene{
         this.player.play("player-Idle");
 
         //* Level text and Score text
-        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, 'point : 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
-        this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, 'level: 000').setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, `point : ${dataManager.store.values.PLAYER_POINT}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, `level : ${dataManager.store.values.PLAYER_LEVEL}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         //* Card button
@@ -94,6 +94,13 @@ export default class PlayerUI extends Phaser.Scene{
         this.add.existing(upgradeButton);
         upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("upgrade");
+            // check if point is more than theldsole
+            if(dataManager.store.values.PLAYER_POINT >= 10){
+                dataManager.store.values.PLAYER_POINT -= 10;
+                dataManager.store.values.PLAYER_LEVEL+=1;
+                this.levelText.setText(`level : ${dataManager.store.values.PLAYER_LEVEL}`)
+                this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
+            }
         });
 
     }

@@ -23,12 +23,7 @@ export default class MainScene extends Phaser.Scene{
         this.input.on('pointerup', () =>
         {
             // attack
-            try{
-                attack(user[0].userCookieId,"6619670c38ef6cdc4ac6b7e7");
-            }
-            catch(e){
-                console.log("can't attack");
-            }
+            attack(localStorage.getItem("userCookieId"),"6619670c38ef6cdc4ac6b7e7");
             // this.scoreManger.IncreaseScore(); // TODO : if attack sucess -> increase score
             dataManager.store.values.PLAYER_POINT+=1;
             clickEvent.emit('OnClick'); // emit event with score
