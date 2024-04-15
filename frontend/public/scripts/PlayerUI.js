@@ -51,13 +51,13 @@ export default class PlayerUI extends Phaser.Scene{
         this.anims.create({
             key:"player-Attack-1",
             frames: this.anims.generateFrameNumbers("player-attack-1"),
-            frameRate:4,
+            frameRate:10,
         })
 
         this.anims.create({
             key:"player-Attack-2",
             frames: this.anims.generateFrameNumbers("player-attack-2"),
-            frameRate:4,
+            frameRate:10,
         })
         this.player.play("player-Idle");
 
@@ -103,7 +103,7 @@ export default class PlayerUI extends Phaser.Scene{
         // for animation
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);
-        this.player.chain([ 'player-Attack-'+mode, 'player-Idle']);
+        this.player.chain('player-Idle');
     }
 
     selectCard(clickedCard) {
