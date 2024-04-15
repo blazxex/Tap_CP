@@ -44,7 +44,7 @@ export async function attack(_userId, bossId){
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
-                userId : _userId,
+                userCookieId: _userId,
                 bossId : "6619670c38ef6cdc4ac6b7e7" 
             })
         }) 
