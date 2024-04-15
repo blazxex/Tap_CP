@@ -37,3 +37,18 @@ export const createBoss = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getCurrentBoss = async (req, res) => {
+  try {
+    const boss = await Boss.findOne().sort({ createdAt: -1 });
+
+    if (!boss) {
+      return res.status(404).json({ error: "No boss found" });
+    }
+
+    res.status(200).json(boss);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
