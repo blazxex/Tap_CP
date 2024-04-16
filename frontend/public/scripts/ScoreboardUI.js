@@ -15,7 +15,7 @@ export default class ScoreBoardUI extends Phaser.Scene{
         ];
 
         // Create the scoreboard
-        this.scoreboard = new Scoreboard(this, WIDTH/4, HEIGHT/4, scores);
+        this.scoreboard = new Scoreboard(this, 50, 50, scores);
 
         // Example of updating scores dynamically
         setTimeout(() => {
