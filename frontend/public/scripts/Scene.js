@@ -1,6 +1,6 @@
 import { WIDTH,HEIGHT } from "./constant.js";
 import { clickEvent, setupEvent } from "./eventCenter.js";
-import { fetchUser, fetchBoss, attack } from "./api.js";
+import { fetchUser, fetchBoss, attack, fetchUserScore } from "./api.js";
 import { dataManager } from "./DataManager.js";
 
 export default class MainScene extends Phaser.Scene{
@@ -24,7 +24,7 @@ export default class MainScene extends Phaser.Scene{
             // attack
             const res = await attack();
             if(res.message === "Attack successful"){
-                dataManager.store.values.userScore+=1;
+                dataManager.store.values.userScore = await fetchUserScore();
                 clickEvent.emit('OnClick'); // emit event with score
             }
             console.log("clicking");

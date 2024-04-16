@@ -1,8 +1,9 @@
 import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
-import {clickEvent} from "./eventCenter.js";
+import {clickEvent, setupEvent} from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";
+import { fetchUserItem, upgradeItem } from "./api.js";
 
 export default class PlayerUI extends Phaser.Scene{
 
@@ -37,11 +38,11 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.audio('hit', "./asset/sfx/hit.wav");
     }
 
-
-    create (){
+    async create (){
         //* set up event
         clickEvent.on('OnClick',this.onClickHandler, this)
 
+        
         //* Setup player image
         this.player = this.add.sprite(WIDTH/2, OffsetFromOrigin(HEIGHT,.3),"player-IDLE");
         this.anims.create({
@@ -69,27 +70,36 @@ export default class PlayerUI extends Phaser.Scene{
         // this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, `level : ${dataManager.store.values.PLAYER_LEVEL}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
+        const item = await fetchUserItem();
         //* Card button
-        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.2,'card1','card01');
+        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.2,'card1','card01',item);
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card1);
         });
 
-        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.17,'card2','card02');
+        // console.log(card1.upgradeBtn);
+        // card1.upgradeBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
+        //     const res = await upgradeItem(card1.item);
+        //     console.log(res);
+        // })
+
+        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.17,'card2','card02',item);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card2);
         });
 
-        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.2,'card3','card03');
+        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.2,'card3','card03',item);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card3);
         });
+
+        this.selectCard(card1) // select card 1 as default
 
         //* hit sound
         this.hitSound = this.sound.add('hit');

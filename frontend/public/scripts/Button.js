@@ -1,28 +1,42 @@
+import { fetchUserItem , upgradeItem} from "./api.js";
+
 export default class Button extends Phaser.GameObjects.Container{
-    constructor(scene, x,y,scale,image,name){
+    // upgradeBtn;
+    constructor(scene, x,y,scale,image,name,item){
         super(scene,x,y);
         this.name = name;
         let img = scene.add.image(0,0,image).setScale(scale);
         // level and dmage text.
-        let lvTxt = scene.add.text(-70,-120, `lv: 0`).setFontSize(16).setColor('#ffff00');
-        let dmgTxt = scene.add.text(0,-120, `dmg: 0`).setFontSize(16).setColor('#ffff00');
+       
+        this.item = item;
+        this.lvTxt = scene.add.text(-70,-120, `lv: ${item[0].itemLevel}`).setFontSize(16).setColor('#ffff00');
+        this.dmgTxt = scene.add.text(0,-120, `dmg: ${item[0].attackPower}`).setFontSize(16).setColor('#ffff00');
 
         // upgrade btn
-        let upgradeTxt = scene.add.text(-50,120, `lv:2  5pt.`).setFontSize(16).setColor('#000000');
-        let upgradeBtn = scene.add.rectangle(0, 130, img.width*scale, img.height*scale*.1, 0xffffff);
+        this.upgradeTxt = scene.add.text(-50,120, `lv:${item[0].itemLevel+1}  5pt.`).setFontSize(16).setColor('#000000');
+        this.upgradeBtn = scene.add.rectangle(0, 130, img.width*scale, img.height*scale*.1, 0xffffff);
 
         this.add(img);
-        this.add(lvTxt);
-        this.add(dmgTxt);
-        this.add(upgradeBtn)
-        this.add(upgradeTxt)
+        this.add(this.lvTxt);
+        this.add(this.dmgTxt);
+        this.add(this.upgradeBtn)
+        this.add(this.upgradeTxt)
 
-        upgradeBtn.setInteractive()
+        this.upgradeBtn.setInteractive()
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
-            upgradeBtn.setAlpha(0.5)//set image opacity to 0.5
+            this.upgradeBtn.setAlpha(0.5)//set image opacity to 0.5
         })
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT,()=>{
-            upgradeBtn.setAlpha(1)//set image opacity to 1
+            this.upgradeBtn.setAlpha(1)//set image opacity to 1
+        })
+        .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
+            //TODO : check score
+            const res = await upgradeItem(item.item);
+            // change txt
+            console.log(res);
+            this.lvTxt.setText(`lv: ${res.updatedItem.itemLevel}`);
+            this.dmgTxt.setText(`lv: ${res.updatedItem.attackPower}`);
+            this.upgradeTxt.setText(`lv: ${res.updatedItem.itemLevel+1}  5pt.`)
         })
 
 
@@ -41,4 +55,7 @@ export default class Button extends Phaser.GameObjects.Container{
                 img.setAlpha(1)//set image opacity to 1
             })
     }
+
+    // get upgradeBtn(){return this.upgradeBtn;}
+
 }

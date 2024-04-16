@@ -1,5 +1,4 @@
 import { fetchUserScore } from "./api.js";
-import { user } from "./config.js";
 
 class DataManager extends Phaser.Events.EventEmitter{
     store;
@@ -7,7 +6,6 @@ class DataManager extends Phaser.Events.EventEmitter{
         super();
         this.store = new Phaser.Data.DataManager(this);
         this.store.set("userScore", 0);
-        this.setUp();
     }
     get store(){this.store;}
 

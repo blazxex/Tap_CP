@@ -1,4 +1,5 @@
 import { BACKEND_URL } from "./config.js";
+import { setupEvent } from "./eventCenter.js";
 
 export async function fetchUser(){
     let uci = localStorage.getItem("userCookieId");
@@ -9,9 +10,9 @@ export async function fetchUser(){
         console.log(userName, newUserCookieId, lastActivate);
         let newUser = null
 
-        fetch("https://api.ipify.org?format=json")
+        const res = await fetch("https://api.ipify.org?format=json")
             .then((response) => response.json())
-            .then((data) => {
+            .then(async (data) => {
                 const ip = data.ip;
                 newUser = {
                     userCookieId: newUserCookieId,
@@ -19,15 +20,15 @@ export async function fetchUser(){
                     lastActivate: lastActivate,
                     ip: ip,
                 };
-                postData("http://localhost:3222/users/", newUser);
+                await postData("http://localhost:3222/users/", newUser);
             });
         localStorage.setItem("userCookieId", newUserCookieId);
+        console.log(newUser);
         return newUser;
     }
     else{
         try{
             const user = await fetch(`${BACKEND_URL}/users/?userCookieId=${uci}`).then((r) => r.json());
-            console.log(user);
             return user;
         }
         catch(e){
@@ -35,9 +36,30 @@ export async function fetchUser(){
         }
     }
 }
+export async function fetchUserItem(){
+    const uci = localStorage.getItem("userCookieId");
+    try{
+        const res = await fetch(`${BACKEND_URL}/items`, {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body : JSON.stringify({
+                userCookieId: uci,
+            })
+        }) 
+        .then((response) => response.json())
+        return res;
+    }
+    catch(e){
+        console.log("can't attack");
+    }
+
+}
 
 export async function fetchUserScore(){
         const userScore = await fetch(`${BACKEND_URL}/board/user?userCookieId=${localStorage.getItem("userCookieId")}`).then((r) => r.json());
+
         if(userScore.score === undefined || userScore.score === null){
             return 0;
         }
@@ -88,7 +110,7 @@ function generateUserCookieId() {
     return id;
 }
 
-function postData(url, data) {
+async function postData(url, data) {
     fetch(url, {
         method: "POST",
         headers: {
@@ -97,6 +119,28 @@ function postData(url, data) {
         body: JSON.stringify(data),
     })
         .then((response) => response.json())
-        .then((data) => console.log("Success:", data))
+        .then((data) => {
+            console.log("Success:", data);
+        })
         .catch((error) => console.error("Error:", error));
+}
+
+
+export async function upgradeItem(itemName){
+    const res = await fetch(`${BACKEND_URL}/items/update`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            userCookieId : localStorage.getItem("userCookieId"),
+            itemName : itemName
+        }),
+    }).then((response) => response.json())
+        // .then((data) => {
+        //     console.log("Success:", data);
+        // })
+        // .catch((error) => console.error("Error:", error));
+    return res;
+
 }
