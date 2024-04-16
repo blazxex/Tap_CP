@@ -3,7 +3,7 @@ import { BACKEND_URL } from "./config.js";
 export async function fetchUser(){
     let uci = localStorage.getItem("userCookieId");
     if(uci === 'null' || uci === null){
-        const userName = "Akao";
+        const userName = "user" + Math.floor(Math.random() * 100000) + 1;;
         const newUserCookieId = generateUserCookieId();
         const lastActivate = new Date().toISOString();
         console.log(userName, newUserCookieId, lastActivate);
@@ -37,9 +37,11 @@ export async function fetchUser(){
 }
 
 export async function fetchUserScore(){
-    const userScore = await fetch(`${BACKEND_URL}/board/user?userCookieId=${localStorage.getItem("userCookieId")}`).then((r) => r.json());
-    return userScore;
-
+        const userScore = await fetch(`${BACKEND_URL}/board/user?userCookieId=${localStorage.getItem("userCookieId")}`).then((r) => r.json());
+        if(userScore.score === undefined || userScore.score === null){
+            return 0;
+        }
+        return userScore.score;
 }
 
 export async function attack(){

@@ -6,13 +6,14 @@ class DataManager extends Phaser.Events.EventEmitter{
     constructor(){
         super();
         this.store = new Phaser.Data.DataManager(this);
+        this.store.set("userScore", 0);
         this.setUp();
     }
     get store(){this.store;}
 
     async setUp(){
         const userScore = await fetchUserScore();
-        this.store.set("userScore",userScore.score);
+        this.store.set("userScore",userScore);
     }
 }
 
