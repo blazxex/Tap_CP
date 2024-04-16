@@ -1,3 +1,2 @@
-const clickEvent = new Phaser.Events.EventEmitter()
-
-export default clickEvent 
+export const clickEvent = new Phaser.Events.EventEmitter()
+export const setupEvent = new Phaser.Events.EventEmitter()

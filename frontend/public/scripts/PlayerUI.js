@@ -1,5 +1,5 @@
 import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
-import clickEvent from "./eventCenter.js";
+import {clickEvent} from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";

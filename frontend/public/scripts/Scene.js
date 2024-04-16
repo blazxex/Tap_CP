@@ -1,7 +1,6 @@
 import { WIDTH,HEIGHT } from "./constant.js";
-import clickEvent from "./eventCenter.js";
+import { clickEvent, setupEvent } from "./eventCenter.js";
 import { fetchUser, fetchBoss, attack } from "./api.js";
-import { user } from "./config.js";
 import { dataManager } from "./DataManager.js";
 
 export default class MainScene extends Phaser.Scene{
