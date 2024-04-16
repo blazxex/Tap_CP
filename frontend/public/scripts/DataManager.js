@@ -6,6 +6,7 @@ class DataManager extends Phaser.Events.EventEmitter{
         super();
         this.store = new Phaser.Data.DataManager(this);
         this.store.set("userScore", 0);
+        this.setUp();
     }
     get store(){this.store;}
 
