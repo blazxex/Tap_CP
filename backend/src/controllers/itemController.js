@@ -6,7 +6,7 @@ const attackPowerMap = new Map([
   ["Initial Item_3", 25],
   ["Axe_2", 30],
 ]);
-
+//i am cuming
 // Function to get attackPower from the map
 function getAttackPower(itemName, itemLevel) {
   return attackPowerMap.get(`${itemName}_${itemLevel}`) || 5;
