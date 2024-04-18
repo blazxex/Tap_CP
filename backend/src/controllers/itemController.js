@@ -28,13 +28,24 @@ export const updateItem = async (req, res) => {
     const items = await Item.findOne({
       userCookieId: userCookieId,
     });
-    console.log(items);
-    const itemLevel = parseInt(items.itemLevel) + 1;
+    let item;
+    switch (index) {
+      case 0:
+        item = items.item.item_0;
+        break;
+      case 1:
+        item = items.item.item_1;
+        break;
+      case 2:
+        item = items.item.item_2;
+        break;
+    }
+    const itemLevel = parseInt(item.itemLevel) + 1;
     const attackPower = getAttackPower(itemName, itemLevel);
 
     let update = {};
-    update[`${itemName}.attackPower`] = attackPower;
-    update[`${itemName}.itemLevel`] = itemLevel;
+    update[item.attackPower] = attackPower;
+    update[item.itemLevel] = itemLevel;
 
     const updatedItem = await Item.findOneAndUpdate(
       { userCookieId: userCookieId },
