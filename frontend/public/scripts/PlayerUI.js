@@ -98,7 +98,7 @@ export default class PlayerUI extends Phaser.Scene{
             this.selectCard(card3,2);
         });
 
-        this.selectCard(card1) // select card 1 as default
+        this.selectCard(card1,0) // select card 1 as default
 
         //* hit sound
         this.hitSound = this.sound.add('hit');
@@ -115,16 +115,16 @@ export default class PlayerUI extends Phaser.Scene{
         this.hitSound.play();
     }
 
-    selectCard(clickedCard,index) {
+    selectCard(clickedCard,ind) {
         // If another card is already selected, disable it
         if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
             this.selectedCard.whiteFill.setAlpha(0); 
             console.log(`Cleared tint and enabled interaction for previously selected card: ${this.selectedCard.name}`);
         }
         
-        this.currentSelectedCardIndex = index;
+        this.currentSelectedCardIndex = ind;
         // Update the selected card
-        selectCardEvent.emit('OnSelectCard',index);
+        selectCardEvent.emit('OnSelectCard',ind);
         this.selectedCard = clickedCard;
         this.selectedCard.whiteFill.setAlpha(.4); 
         console.log(`Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`);

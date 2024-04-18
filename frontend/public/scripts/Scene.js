@@ -14,7 +14,7 @@ export default class MainScene extends Phaser.Scene{
     }
     async create ()
     {
-        selectCardEvent.on('OnSelectCard',(index) => {this.currentSelectcard=index;console.log(index);},this);        
+        selectCardEvent.on('OnSelectCard',ind => this.currentSelectcard=ind,this);        
 
         var bg = this.add.image(WIDTH/2, HEIGHT/2, 'sky');
         const scaleX = WIDTH / bg.width;
