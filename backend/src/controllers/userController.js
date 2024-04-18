@@ -19,9 +19,10 @@ export const createUser = async (req, res) => {
     //init user item
     const newItem = new Item({
       userCookieId: newUser.userCookieId,
-      item: "Initial Item",
-      itemLevel: 1,
-      attackPower: 1,
+      item: { item0 : {itemLevel : 1 , attackPower : 1}, 
+              item1 : {itemLevel : 1 , attackPower : 1},
+              item2 : {itemLevel : 1 , attackPower : 1}
+    },
     });
     await newItem.save();
 

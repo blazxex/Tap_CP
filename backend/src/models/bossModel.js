@@ -7,6 +7,7 @@ const bossSchema = new Schema({
   bossName: String,
   totalHp: Number,
   currentHp: Number,
+  weakness : Number,
 });
 
 const Boss = mongoose.model("Boss", bossSchema);

@@ -14,17 +14,22 @@ function getRandomBossName() {
 function getRandomHealth() {
   return (Math.floor(Math.random() * 100) + 50) * 10;
 }
+function getRandomWeakness(){//0,1,2
+  return (Math.floor(Math.random() * 3))
+}
 export const createBoss = async (req, res) => {
   try {
     const bossName = getRandomBossName();
     const totalHp = getRandomHealth();
     const currentHp = totalHp;
+    const weakness = getRandomWeakness();
 
     const newBoss = new Boss({
       bossId: new mongoose.Types.ObjectId(),
       bossName,
       totalHp,
       currentHp,
+      weakness,
     });
 
     // Save the new boss to the database

@@ -4,7 +4,7 @@ import ScoreBoard from "../models/scoreBoardModel.js";
 import Boss from "../models/bossModel.js";
 import { createBoss } from "./bossController.js";
 export const userAttack = async (req, res) => {
-  const { userCookieId, bossId } = req.body;
+  const { userCookieId, bossId, index} = req.body;
 
   try {
     // Retrieve the user item and boss concurrently
@@ -28,8 +28,22 @@ export const userAttack = async (req, res) => {
       { $set: { lastActivate: currentTime } },
       { new: true }
     );
-
-    boss.currentHp = Math.max(0, boss.currentHp - userItem.attackPower);
+    let damage = 0;
+    let atp = 0;
+    switch(index) {
+      case 0:
+        atp = userItem.item.item0.attackPower;
+        break;
+      case 1:
+        atp = userItem.item.item1.attackPower;
+        break;
+      case 2:
+        atp = userItem.item.item2.attackPower;
+        break;
+    }
+    if(boss.weakness === index)damage = atp
+    else damage = atp/2
+    boss.currentHp = Math.max(0, boss.currentHp - damage);
     if (boss.currentHp === 0) {
       await Boss.deleteOne({ bossId: bossId });
       createBoss();
