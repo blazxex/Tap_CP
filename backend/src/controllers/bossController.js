@@ -34,12 +34,12 @@ export const createBoss = async (req, res) => {
 
     // Save the new boss to the database
     await newBoss.save();
-
+    console.log(newBoss);
     // Respond with the newly created boss document
-    res.status(201).json(newBoss);
+    res.status(200).json({message : "yo"});
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    // console.error(err);
+    // res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

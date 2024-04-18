@@ -75,8 +75,9 @@ export default class PlayerUI extends Phaser.Scene{
 
 
         const item = await fetchUserItem();
+        console.log(item);
         //* Card button
-        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item.item.item0);
+        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item.item.item_0,0);
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
@@ -84,14 +85,14 @@ export default class PlayerUI extends Phaser.Scene{
         });
 
 
-        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item1);
+        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item_1,1);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card2,1);
         });
 
-        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item.item.item2);
+        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item.item.item_2,2);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");

@@ -138,7 +138,7 @@ async function postData(url, data) {
 }
 
 
-export async function upgradeItem(itemName){
+export async function upgradeItem(ind){
     const res = await fetch(`${BACKEND_URL}/items/update`, {
         method: "POST",
         headers: {
@@ -146,13 +146,9 @@ export async function upgradeItem(itemName){
         },
         body: JSON.stringify({
             userCookieId : localStorage.getItem("userCookieId"),
-            itemName : itemName
+            index : ind
         }),
     }).then((response) => response.json())
-        // .then((data) => {
-        //     console.log("Success:", data);
-        // })
-        // .catch((error) => console.error("Error:", error));
     return res;
 
 }

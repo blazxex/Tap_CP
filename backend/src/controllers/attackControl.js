@@ -47,35 +47,59 @@ export const userAttack = async (req, res) => {
     if (boss.currentHp === 0) {
       await Boss.deleteOne({ bossId: bossId });
       createBoss();
+
+      const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
+        { userCookieId: userCookieId },
+        { $inc: { score: damage} },
+        { new: true, upsert: true }
+      );
+
+      // Execute updates concurrently
+      const [updatedUser, updatedScoreBoard] = await Promise.all([
+        updatedUserPromise,
+        updatedScoreBoardPromise,
+      ]);
+
+      if (!updatedScoreBoard) {
+        return res.status(404).json({ error: "Score update failed" });
+      }
+      
+      res.status(200).json({
+        message: "Attack successful",
+        user: updatedUser,
+        score: updatedScoreBoard.score,
+      });
+    }
+    else{
+      const updatedBossPromise = Boss.findByIdAndUpdate(boss._id, boss);
+
+      // Update the user's score
+      const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
+        { userCookieId: userCookieId },
+        { $inc: { score: damage} },
+        { new: true, upsert: true }
+      );
+
+      // Execute updates concurrently
+      const [updatedUser, updatedBoss, updatedScoreBoard] = await Promise.all([
+        updatedUserPromise,
+        updatedBossPromise,
+        updatedScoreBoardPromise,
+      ]);
+
+      if (!updatedScoreBoard) {
+        return res.status(404).json({ error: "Score update failed" });
+      }
+
+      // Return success response
+      res.status(200).json({
+        message: "Attack successful",
+        user: updatedUser,
+        boss: updatedBoss,
+        score: updatedScoreBoard.score,
+      });
     }
 
-    const updatedBossPromise = Boss.findByIdAndUpdate(boss._id, boss);
-
-    // Update the user's score
-    const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
-      { userCookieId: userCookieId },
-      { $inc: { score: damage} },
-      { new: true, upsert: true }
-    );
-
-    // Execute updates concurrently
-    const [updatedUser, updatedBoss, updatedScoreBoard] = await Promise.all([
-      updatedUserPromise,
-      updatedBossPromise,
-      updatedScoreBoardPromise,
-    ]);
-
-    if (!updatedScoreBoard) {
-      return res.status(404).json({ error: "Score update failed" });
-    }
-
-    // Return success response
-    res.status(200).json({
-      message: "Attack successful",
-      user: updatedUser,
-      boss: updatedBoss,
-      score: updatedScoreBoard.score,
-    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

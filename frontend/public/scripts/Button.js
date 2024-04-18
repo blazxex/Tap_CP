@@ -2,8 +2,9 @@ import { fetchUserItem , upgradeItem} from "./api.js";
 
 export default class Button extends Phaser.GameObjects.Container{
     // upgradeBtn;
-    constructor(scene, x,y,scale,image,name,item){
+    constructor(scene, x,y,scale,image,name,item,ind){
         super(scene,x,y);
+        this.index = ind;
         this.name = name;
         this.img = scene.add.image(0,0,image).setScale(scale);
         // level and dmage text.
@@ -30,15 +31,25 @@ export default class Button extends Phaser.GameObjects.Container{
             this.upgradeBtn.setAlpha(1)//set image opacity to 1
         })
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
-            // //TODO : check score
-            // const res = await upgradeItem(item.item);
-            // // change txt
-            // console.log(res);
-            // this.lvTxt.setText(`lv: ${res.updatedItem.itemLevel}`);
-            // this.dmgTxt.setText(`lv: ${res.updatedItem.attackPower}`);
-            // this.upgradeTxt.setText(`lv: ${res.updatedItem.itemLevel+1}  5pt.`)
-        })
+            const res = await upgradeItem(this.index);
+            let it = null;
+            switch (this.index) {
+            case 0:
+                it = res.updatedItem.item.item_0;
+                break;
+            case 1:
+                it = res.updatedItem.item.item_1;
+                break;
+            case 2:
+                it = res.updatedItem.item.item_2;
+                break;
+            }
 
+            console.log(it);
+            this.lvTxt.setText(`lv: ${it.itemLevel}`);
+            this.dmgTxt.setText(`atk: ${it.attackPower}`);
+            this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  5pt.`)
+        })
 
 
         this.whiteFill = scene.add.rectangle(0, 0, this.img.width*scale, this.img.height*scale, 0x000000);
@@ -55,7 +66,4 @@ export default class Button extends Phaser.GameObjects.Container{
                 this.img.setAlpha(1)//set image opacity to 1
             })
     }
-
-    // get upgradeBtn(){return this.upgradeBtn;}
-
 }
