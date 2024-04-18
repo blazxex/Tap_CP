@@ -14,7 +14,7 @@ function getAttackPower(itemName, itemLevel) {
 
 export const getItems = async (req, res) => {
   const { userCookieId } = req.body;
-  const items = await Item.find({
+  const items = await Item.findOne({
     userCookieId: userCookieId,
   });
 
