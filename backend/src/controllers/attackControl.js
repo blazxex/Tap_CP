@@ -40,9 +40,12 @@ export const userAttack = async (req, res) => {
       case 2:
         atp = userItem.item.item2.attackPower;
         break;
+      default:
+        atp = 1;
+        break;
     }
-    if(boss.weakness === index)damage = atp
-    else damage = atp/2
+    if(boss.weakness === index){damage = atp;}
+    else {damage = Math.ceil(atp/2);}
     boss.currentHp = Math.max(0, boss.currentHp - damage);
     if (boss.currentHp === 0) {
       await Boss.deleteOne({ bossId: bossId });
@@ -54,7 +57,7 @@ export const userAttack = async (req, res) => {
     // Update the user's score
     const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
       { userCookieId: userCookieId },
-      { $inc: { score: userItem.attackPower } },
+      { $inc: { score: damage} },
       { new: true, upsert: true }
     );
 
