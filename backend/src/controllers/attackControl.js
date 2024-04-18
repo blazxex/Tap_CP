@@ -32,13 +32,13 @@ export const userAttack = async (req, res) => {
     let atp = 0;
     switch (index) {
       case 0:
-        atp = userItem.item.item0.attackPower;
+        atp = userItem.item.item_0.attackPower;
         break;
       case 1:
-        atp = userItem.item.item1.attackPower;
+        atp = userItem.item.item_1.attackPower;
         break;
       case 2:
-        atp = userItem.item.item2.attackPower;
+        atp = userItem.item.item_2.attackPower;
         break;
     }
     if (boss.weakness === index) damage = atp;
