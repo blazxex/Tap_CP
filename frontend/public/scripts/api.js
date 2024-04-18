@@ -1,37 +1,47 @@
 import { BACKEND_URL } from "./config.js";
 import { setupEvent } from "./eventCenter.js";
 
-export async function fetchUser(){
-    let uci = localStorage.getItem("userCookieId");
-    if(uci === 'null' || uci === null){
-        const userName = "user" + Math.floor(Math.random() * 100000) + 1;;
-        const newUserCookieId = generateUserCookieId();
-        const lastActivate = new Date().toISOString();
-        console.log(userName, newUserCookieId, lastActivate);
-        let newUser = null
 
-        const res = await fetch("https://api.ipify.org?format=json")
-            .then((response) => response.json())
-            .then(async (data) => {
-                const ip = data.ip;
-                newUser = {
-                    userCookieId: newUserCookieId,
-                    userName: userName,
-                    lastActivate: lastActivate,
-                    ip: ip,
-                };
-                await postData("http://localhost:3222/users/", newUser);
-            });
-        localStorage.setItem("userCookieId", newUserCookieId);
-        console.log(newUser);
-        return newUser;
+async function NewUser(uci){
+    const userName = "user" + Math.floor(Math.random() * 100000) + 1;;
+    const newUserCookieId = uci;
+    const lastActivate = new Date().toISOString();
+    console.log(userName, newUserCookieId, lastActivate);
+    let newUser = null
+
+    const res = await fetch("https://api.ipify.org?format=json")
+        .then((response) => response.json())
+        .then(async (data) => {
+            const ip = data.ip;
+            newUser = {
+                userCookieId: newUserCookieId,
+                userName: userName,
+                lastActivate: lastActivate,
+                ip: ip,
+            };
+            await postData("http://localhost:3222/users/", newUser);
+        });
+    localStorage.setItem("userCookieId", newUserCookieId);
+    console.log(newUser);
+    return newUser;
+
+}
+
+export async function fetchUser() {
+    let uci = localStorage.getItem("userCookieId");
+    if (uci === 'null' || uci === null) {
+        return await NewUser(generateUserCookieId()); 
     }
-    else{
-        try{
-            const user = await fetch(`${BACKEND_URL}/users/?userCookieId=${uci}`).then((r) => r.json());
-            return user;
+    else {
+        try {
+            const user = await fetch(`${BACKEND_URL}/users/?userCookieId=${uci}`);
+            if (user.status === 200) {
+                return user.json();
+            } else if (user.status === 404) {
+                return NewUser(localStorage.getItem("userCookieId"));
+            }
         }
-        catch(e){
+        catch (e) {
             console.log('cant fetch user');
         }
     }

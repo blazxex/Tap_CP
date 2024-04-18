@@ -20,6 +20,9 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('card2', "./asset/card2.png");
         this.load.image('card3', "./asset/card3.png");
         this.load.image('diamondSword', "./asset/diamond.png");
+        this.load.image('cppIcon', "./asset/cppIcon.png");
+        this.load.image('pythonIcon', "./asset/pythonIcon.png");
+        this.load.image('javaIcon', "./asset/javaIcon.png");
         //* load sprite sheet
         this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
             frameWidth:256,
@@ -36,6 +39,7 @@ export default class PlayerUI extends Phaser.Scene{
         
         // sfx
         this.load.audio('hit', "./asset/sfx/hit.wav");
+
     }
 
     async create (){
@@ -72,27 +76,22 @@ export default class PlayerUI extends Phaser.Scene{
 
         const item = await fetchUserItem();
         //* Card button
-        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.2,'card1','card01',item);
+        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item);
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card1);
         });
 
-        // console.log(card1.upgradeBtn);
-        // card1.upgradeBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
-        //     const res = await upgradeItem(card1.item);
-        //     console.log(res);
-        // })
 
-        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.17,'card2','card02',item);
+        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card2);
         });
 
-        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.2,'card3','card03',item);
+        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
@@ -104,23 +103,6 @@ export default class PlayerUI extends Phaser.Scene{
         //* hit sound
         this.hitSound = this.sound.add('hit');
         this.hitSound.setVolume(0.2);
-
-
-
-        // //* Level Up Button
-        // var upgradeButton = new Button(this,.7*WIDTH+200, .7*HEIGHT,.2,'diamondSword');
-        // this.add.existing(upgradeButton);
-        // upgradeButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-        //     console.log("upgrade");
-        //     // check if point is more than theldsole
-        //     if(dataManager.store.values.PLAYER_POINT >= 10){
-        //         dataManager.store.values.PLAYER_POINT -= 10;
-        //         dataManager.store.values.PLAYER_LEVEL+=1;
-        //         this.levelText.setText(`level : ${dataManager.store.values.PLAYER_LEVEL}`)
-        //         this.pointText.setText(`point : ${dataManager.store.values.PLAYER_POINT}`)
-        //     }
-        // });
-
     }
 
     onClickHandler(){
@@ -142,7 +124,7 @@ export default class PlayerUI extends Phaser.Scene{
     
         // Update the selected card
         this.selectedCard = clickedCard;
-        this.selectedCard.whiteFill.setAlpha(1); 
+        this.selectedCard.whiteFill.setAlpha(.4); 
         console.log(`Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`);
     }
 
