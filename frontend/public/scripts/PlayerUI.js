@@ -1,17 +1,18 @@
 import { WIDTH,HEIGHT,OffsetFromOrigin} from "./constant.js";
-import {clickEvent, setupEvent} from "./eventCenter.js";
+import {clickEvent, selectCardEvent, setupEvent} from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";
 import { fetchUserItem, upgradeItem } from "./api.js";
 
 export default class PlayerUI extends Phaser.Scene{
-
+    currentSelectedCardIndex;
     constructor() {
 		super({ key: 'PlayerUI',active:true });
         this.selectedCard = null;
         this.levelText = null;
         this.pointText = null;
+        this.currentSelectedCardIndex = 0;
 	}
     preload (){
         this.load.image('kuromaru', "./asset/kuromaru.png")
@@ -71,31 +72,30 @@ export default class PlayerUI extends Phaser.Scene{
 
         //* Level text and Score text
         this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, `Score : ${dataManager.store.values.userScore}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
-        // this.levelText = this.add.text(.7*WIDTH, .4*HEIGHT+80, `level : ${dataManager.store.values.PLAYER_LEVEL}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         const item = await fetchUserItem();
         //* Card button
-        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item);
+        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item.item.item0);
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
-            this.selectCard(card1);
+            this.selectCard(card1,0);
         });
 
 
-        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item);
+        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item1);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
-            this.selectCard(card2);
+            this.selectCard(card2,1);
         });
 
-        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item);
+        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item.item.item2);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
-            this.selectCard(card3);
+            this.selectCard(card3,2);
         });
 
         this.selectCard(card1) // select card 1 as default
@@ -115,21 +115,23 @@ export default class PlayerUI extends Phaser.Scene{
         this.hitSound.play();
     }
 
-    selectCard(clickedCard) {
+    selectCard(clickedCard,index) {
         // If another card is already selected, disable it
         if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
             this.selectedCard.whiteFill.setAlpha(0); 
             console.log(`Cleared tint and enabled interaction for previously selected card: ${this.selectedCard.name}`);
         }
-    
+        
+        this.currentSelectedCardIndex = index;
         // Update the selected card
+        selectCardEvent.emit('OnSelectCard',index);
         this.selectedCard = clickedCard;
         this.selectedCard.whiteFill.setAlpha(.4); 
         console.log(`Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`);
     }
-
 }
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
+

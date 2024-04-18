@@ -47,8 +47,8 @@ export async function fetchUser() {
     }
 }
 export async function fetchUserItem(){
-    const uci = localStorage.getItem("userCookieId");
     try{
+        const uci = localStorage.getItem("userCookieId");
         const res = await fetch(`${BACKEND_URL}/items`, {
             method: "POST",
             headers:{
@@ -62,7 +62,7 @@ export async function fetchUserItem(){
         return res;
     }
     catch(e){
-        console.log("can't attack");
+        console.log("can't fetch");
     }
 
 }
@@ -76,11 +76,11 @@ export async function fetchUserScore(){
         return userScore.score;
 }
 
-export async function attack(){
-    const uci = localStorage.getItem("userCookieId");
-    const boss = await fetchBoss();
-
+export async function attack(ind){
+    if(ind === null) {ind = 0;}
     try{
+        const uci = localStorage.getItem("userCookieId");
+        const boss = await fetchBoss();
         const res = await fetch(`${BACKEND_URL}/attack`, {
             method: "POST",
             headers:{
@@ -88,14 +88,16 @@ export async function attack(){
             },
             body : JSON.stringify({
                 userCookieId: uci,
-                bossId : boss.bossId 
+                bossId : boss.bossId,
+                index : ind
             })
         }) 
-        .then((response) => response.json())
-        return res;
+        if(res.ok){return true;}
+        return false;
     }
     catch(e){
         console.log("can't attack");
+        return false;
     }
 }
 

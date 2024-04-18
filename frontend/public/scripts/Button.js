@@ -9,11 +9,11 @@ export default class Button extends Phaser.GameObjects.Container{
         // level and dmage text.
        
         this.item = item;
-        this.lvTxt = scene.add.text(-70,-100, `lv: ${item[0].itemLevel}`).setFontSize(16).setColor('#ffff00');
-        this.dmgTxt = scene.add.text(0,-100, `dmg: ${item[0].attackPower}`).setFontSize(16).setColor('#ffff00');
+        this.lvTxt = scene.add.text(-70,-100, `lv: ${item.itemLevel}`).setFontSize(16).setColor('#ffff00');
+        this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(16).setColor('#ffff00');
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50,100, `lv:${item[0].itemLevel+1}  5pt.`).setFontSize(16).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}  5pt.`).setFontSize(16).setColor('#000000');
         this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
 
         this.add(this.img);
@@ -30,13 +30,13 @@ export default class Button extends Phaser.GameObjects.Container{
             this.upgradeBtn.setAlpha(1)//set image opacity to 1
         })
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
-            //TODO : check score
-            const res = await upgradeItem(item.item);
-            // change txt
-            console.log(res);
-            this.lvTxt.setText(`lv: ${res.updatedItem.itemLevel}`);
-            this.dmgTxt.setText(`lv: ${res.updatedItem.attackPower}`);
-            this.upgradeTxt.setText(`lv: ${res.updatedItem.itemLevel+1}  5pt.`)
+            // //TODO : check score
+            // const res = await upgradeItem(item.item);
+            // // change txt
+            // console.log(res);
+            // this.lvTxt.setText(`lv: ${res.updatedItem.itemLevel}`);
+            // this.dmgTxt.setText(`lv: ${res.updatedItem.attackPower}`);
+            // this.upgradeTxt.setText(`lv: ${res.updatedItem.itemLevel+1}  5pt.`)
         })
 
 
