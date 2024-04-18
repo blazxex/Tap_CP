@@ -22,43 +22,35 @@ export const getItems = async (req, res) => {
 };
 
 export const updateItem = async (req, res) => {
+  const { userCookieId, index } = req.body;
+  let itemName = "Initial Item_" + (index + 1); // Assuming item names are styled as "Initial Item_1", etc.
+
   try {
-    const { userCookieId, index } = req.body;
-    let itemName = "item_" + index;
-    const items = await Item.findOne({
-      userCookieId: userCookieId,
-    });
-    let item;
-    switch (index) {
-      case 0:
-        item = items.item.item_0;
-        break;
-      case 1:
-        item = items.item.item_1;
-        break;
-      case 2:
-        item = items.item.item_2;
-        break;
+    const itemField = `item.item_${index}`; // Correct path to the item fields
+    const item = await Item.findOne({ userCookieId });
+
+    if (!item || !item.item || !item.item[`item_${index}`]) {
+      return res.status(404).json({ message: "Item not found" });
     }
-    const itemLevel = parseInt(item.itemLevel) + 1;
+
+    const currentLevel = item.item[`item_${index}`].itemLevel;
+    const itemLevel = currentLevel + 1;
     const attackPower = getAttackPower(itemName, itemLevel);
 
     let update = {};
-    update[item.attackPower] = attackPower;
-    update[item.itemLevel] = itemLevel;
+    update[`${itemField}.attackPower`] = attackPower; // Dot notation for nested fields
+    update[`${itemField}.itemLevel`] = itemLevel; // Dot notation for nested fields
 
     const updatedItem = await Item.findOneAndUpdate(
-      { userCookieId: userCookieId },
-      update,
+      { userCookieId },
+      { $set: update }, // Using $set to specify the fields to update
       { new: true }
     );
-
-    console.log(updateItem);
 
     if (updatedItem) {
       res.json({ message: "Item updated successfully", updatedItem });
     } else {
-      res.status(404).json({ message: "Item not found" });
+      res.status(404).json({ message: "Failed to update item" });
     }
   } catch (error) {
     res
