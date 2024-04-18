@@ -36,10 +36,12 @@ export const updateItem = async (req, res) => {
     const currentLevel = item.item[`item_${index}`].itemLevel;
     const itemLevel = currentLevel + 1;
     const attackPower = getAttackPower(itemName, itemLevel);
-
+    const updated_price = (itemLevel**2)*1000;
+    
     let update = {};
     update[`${itemField}.attackPower`] = attackPower; // Dot notation for nested fields
     update[`${itemField}.itemLevel`] = itemLevel; // Dot notation for nested fields
+    update[`${itemField}.price`] = updated_price;
 
     const updatedItem = await Item.findOneAndUpdate(
       { userCookieId },
