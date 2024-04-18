@@ -54,7 +54,7 @@ export const userAttack = async (req, res) => {
     // Update the user's score
     const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
       { userCookieId: userCookieId },
-      { $inc: { score: userItem.attackPower } },
+      { $inc: { score: damage} },
       { new: true, upsert: true }
     );
 
