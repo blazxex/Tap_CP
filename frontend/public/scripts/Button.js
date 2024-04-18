@@ -1,4 +1,5 @@
-import { fetchUserItem , upgradeItem} from "./api.js";
+import { fetchUserItem , updateScore, upgradeItem} from "./api.js";
+import { dataManager } from "./DataManager.js";
 
 export default class Button extends Phaser.GameObjects.Container{
     // upgradeBtn;
@@ -14,7 +15,7 @@ export default class Button extends Phaser.GameObjects.Container{
         this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(16).setColor('#ffff00');
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}  5pt.`).setFontSize(16).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}  ${item.price} sc.`).setFontSize(16).setColor('#000000');
         this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
 
         this.add(this.img);
@@ -22,6 +23,8 @@ export default class Button extends Phaser.GameObjects.Container{
         this.add(this.dmgTxt);
         this.add(this.upgradeBtn)
         this.add(this.upgradeTxt)
+
+        this.price = item.price;
 
         this.upgradeBtn.setInteractive()
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
@@ -31,24 +34,27 @@ export default class Button extends Phaser.GameObjects.Container{
             this.upgradeBtn.setAlpha(1)//set image opacity to 1
         })
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
-            const res = await upgradeItem(this.index);
-            let it = null;
-            switch (this.index) {
-            case 0:
-                it = res.updatedItem.item.item_0;
-                break;
-            case 1:
-                it = res.updatedItem.item.item_1;
-                break;
-            case 2:
-                it = res.updatedItem.item.item_2;
-                break;
+            if(dataManager.store.values.userScore >= this.price){
+                dataManager.store.values.userScore -= this.price;
+                const newScore = await updateScore(localStorage.getItem("userCookieId"), dataManager.store.values.userScore);
+                const res = await upgradeItem(this.index);
+                let it = null;
+                switch (this.index) {
+                case 0:
+                    it = res.updatedItem.item.item_0;
+                    break;
+                case 1:
+                    it = res.updatedItem.item.item_1;
+                    break;
+                case 2:
+                    it = res.updatedItem.item.item_2;
+                    break;
+                }
+                
+                this.lvTxt.setText(`lv: ${it.itemLevel}`);
+                this.dmgTxt.setText(`atk: ${it.attackPower}`);
+                this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  ${it.price} sc.`)
             }
-
-            console.log(it);
-            this.lvTxt.setText(`lv: ${it.itemLevel}`);
-            this.dmgTxt.setText(`atk: ${it.attackPower}`);
-            this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  5pt.`)
         })
 
 

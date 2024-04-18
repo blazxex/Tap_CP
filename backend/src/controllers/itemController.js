@@ -35,7 +35,7 @@ export const updateItem = async (req, res) => {
 
     const currentLevel = item.item[`item_${index}`].itemLevel;
     const itemLevel = currentLevel + 1;
-    const attackPower = getAttackPower(itemName, itemLevel);
+    const attackPower = (item.item[`item_${index}`].attackPower)+1;
     const updated_price = (itemLevel**2)*1000;
     
     let update = {};

@@ -152,3 +152,18 @@ export async function upgradeItem(ind){
     return res;
 
 }
+
+export async function updateScore(ind,sco){
+    const res = await fetch(`${BACKEND_URL}/board/update`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            userCookieId : localStorage.getItem("userCookieId"),
+            score : sco
+        }),
+    }).then((response) => response.json())
+    return res;
+
+}

@@ -104,6 +104,10 @@ export default class PlayerUI extends Phaser.Scene{
         //* hit sound
         this.hitSound = this.sound.add('hit');
         this.hitSound.setVolume(0.2);
+
+        setInterval(async () => {
+            await this.pointText.setText(`Score : ${dataManager.store.values.userScore}`)
+        }, 50);
     }
 
     onClickHandler(){
