@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT } from "./constant.js";
+import { WIDTH, HEIGHT,OffsetFromOrigin } from "./constant.js";
 import { fetchBoss } from "./api.js";
 
 export default class BossUI extends Phaser.Scene {
@@ -17,25 +17,34 @@ export default class BossUI extends Phaser.Scene {
 
     preload() {
         this.load.image('rei', "./asset/rei.png");
+        this.load.spritesheet("Al-kwharizmi", "./asset/Al-kwharizmi.png",{
+            frameWidth:384,
+            frameHeight:384
+        });
     }
 
     async create() {
         // Fetch the data of the boss
-        await this.updateBossData();
-
         // Create and scale the boss image
-        this.bossImage = this.add.image(WIDTH / 2, HEIGHT / 2, 'rei');
-        const scaleX = WIDTH / this.bossImage.width;
-        const scaleY = HEIGHT / this.bossImage.height;
-        this.bossImage.setScale(.5 * scaleX, .7 * scaleY);
+        this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Al-kwharizmi");
+        this.anims.create({
+            key:"Al-kwharizmi",
+            frames: this.anims.generateFrameNumbers("Al-kwharizmi"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.bossImage.play("Al-kwharizmi");
+        //const scaleX = WIDTH / this.bossImage.width;
+        //const scaleY = HEIGHT / this.bossImage.height;
+        //this.bossImage.setScale(.5 * scaleX, .7 * scaleY);
 
         // Create HP bar
         this.createHpBar();
 
         const tween = this.add.tween({
             targets: this.bossImage, // Corrected targets property
-            y: HEIGHT/2-50,
-            duration: 1000,
+            y: HEIGHT/2+10,
+            duration: 3000,
             yoyo: true,
             ease: 'Quad.inOut',
             repeat: -1
@@ -51,11 +60,14 @@ export default class BossUI extends Phaser.Scene {
     async updateBossData() {
         // Fetch the updated data of the boss
         const bossData = await fetchBoss();
-        this.bossname = bossData.bossname;
-        this.totalHp = bossData.totalHp;
-        this.currentHp = bossData.currentHp;
-        // Update the HP bar
-        this.updateHpBar();
+        if (bossData !== undefined) {
+            // If bossData is defined, update UI with boss data
+            this.bossname = bossData.bossname;
+            this.totalHp = bossData.totalHp;
+            this.currentHp = bossData.currentHp;
+            // Update the HP bar
+            this.updateHpBar();
+        }
     }
 
     createHpBar() {
