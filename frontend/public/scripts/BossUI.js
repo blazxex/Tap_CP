@@ -21,19 +21,39 @@ export default class BossUI extends Phaser.Scene {
             frameWidth:384,
             frameHeight:384
         });
+        this.load.spritesheet("Kadane", "./asset/Kadane.png",{
+            frameWidth:384,
+            frameHeight:384
+        });
+        this.load.spritesheet("Eijktra", "./asset/Eijktra.png",{
+            frameWidth:384,
+            frameHeight:384
+        });
     }
 
     async create() {
         // Fetch the data of the boss
         // Create and scale the boss image
-        this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Al-kwharizmi");
+        this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Eijktra");
         this.anims.create({
             key:"Al-kwharizmi",
             frames: this.anims.generateFrameNumbers("Al-kwharizmi"),
             frameRate:4,
             repeat:-1
         })
-        this.bossImage.play("Al-kwharizmi");
+        this.anims.create({
+            key:"Kadane",
+            frames: this.anims.generateFrameNumbers("Kadane"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.anims.create({
+            key:"Eijktra",
+            frames: this.anims.generateFrameNumbers("Eijktra"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.bossImage.play("Eijktra");
         //const scaleX = WIDTH / this.bossImage.width;
         //const scaleY = HEIGHT / this.bossImage.height;
         //this.bossImage.setScale(.5 * scaleX, .7 * scaleY);
