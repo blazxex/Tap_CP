@@ -1,5 +1,6 @@
 import { fetchUserItem , updateScore, upgradeItem} from "./api.js";
 import { dataManager } from "./DataManager.js";
+import * as wfl from "../lib/WebFontLoader.js"
 
 export default class Button extends Phaser.GameObjects.Container{
     // upgradeBtn;
@@ -11,11 +12,11 @@ export default class Button extends Phaser.GameObjects.Container{
         // level and dmage text.
        
         this.item = item;
-        this.lvTxt = scene.add.text(-70,-100, `lv: ${item.itemLevel}`).setFontSize(16).setColor('#ffff00');
-        this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(16).setColor('#ffff00');
+        this.lvTxt = scene.add.text(-70,-100, `lv: ${item.itemLevel}`).setFontSize(32).setColor('#ffff00');
+        this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(32).setColor('#ffff00');
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}  ${item.price} sc.`).setFontSize(16).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}             ${formatNumber(item.price)} sc.`).setFontSize(20).setColor('#000000');
         this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
 
         this.add(this.img);
@@ -71,5 +72,29 @@ export default class Button extends Phaser.GameObjects.Container{
                 // console.log('out')
                 this.img.setAlpha(1)//set image opacity to 1
             })
+
+        wfl.default.load({
+            custom:{
+                families: ['Kenny'],
+            },
+            active : () => {
+                this.lvTxt.setFontFamily('Kenny')
+                this.dmgTxt.setFontFamily('Kenny')
+                this.upgradeTxt.setFontFamily('Kenny')
+            }
+        });
+    }
+
+
+}
+
+function formatNumber(num) {
+    if (num < 1000) {
+        // If the number is less than 1000, just convert it to a string and return.
+        return num.toString();
+    } else {
+        // If the number is 1000 or greater, convert to a string in the format of "1.2k".
+        // Divide the number by 1000 and use toFixed(1) to keep one decimal place.
+        return (num / 1000).toFixed(1) + 'k';
     }
 }

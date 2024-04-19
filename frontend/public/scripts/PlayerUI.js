@@ -4,6 +4,7 @@ import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";
 import { fetchUserItem, upgradeItem } from "./api.js";
+import * as WebFontLoader from "../lib/WebFontLoader.js";
 
 export default class PlayerUI extends Phaser.Scene{
     currentSelectedCardIndex;
@@ -71,7 +72,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.player.play("player-Idle");
 
         //* Level text and Score text
-        this.pointText = this.add.text(.7*WIDTH, .4*HEIGHT, `Score : ${dataManager.store.values.userScore}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.pointText = this.add.text(.665*WIDTH, .35*HEIGHT, `Score : ${formatNumber(dataManager.store.values.userScore)}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         const item = await fetchUserItem();
@@ -85,14 +86,14 @@ export default class PlayerUI extends Phaser.Scene{
         });
 
 
-        var card2 = new Button(this,.7*WIDTH+200, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item_1,1);
+        var card2 = new Button(this,.7*WIDTH+150, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item_1,1);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
             this.selectCard(card2,1);
         });
 
-        var card3 = new Button(this,.7*WIDTH+400, .2*HEIGHT,.5,'javaIcon','card03',item.item.item_2,2);
+        var card3 = new Button(this,.7*WIDTH+300, .2*HEIGHT,.5,'javaIcon','card03',item.item.item_2,2);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             console.log("click card");
@@ -106,12 +107,21 @@ export default class PlayerUI extends Phaser.Scene{
         this.hitSound.setVolume(0.2);
 
         setInterval(async () => {
-            await this.pointText.setText(`Score : ${dataManager.store.values.userScore}`)
+            await this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)
         }, 50);
+
+        WebFontLoader.default.load({
+            custom:{
+                families: ['Kenny'],
+            },
+            active : () => {
+                this.pointText.setFontFamily('Kenny')
+            }
+        });
     }
 
     onClickHandler(){
-        this.pointText.setText(`Score : ${dataManager.store.values.userScore}`)
+        this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)
         // for animation
         let mode = getRndInteger(1,2);
         this.player.play('player-Attack-'+mode);
@@ -136,7 +146,19 @@ export default class PlayerUI extends Phaser.Scene{
     }
 }
 
+
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function formatNumber(num) {
+    if (num < 1000) {
+        // If the number is less than 1000, just convert it to a string and return.
+        return num.toString();
+    } else {
+        // If the number is 1000 or greater, convert to a string in the format of "1.2k".
+        // Divide the number by 1000 and use toFixed(1) to keep one decimal place.
+        return (num / 1000).toFixed(1) + 'k';
+    }
 }
 
