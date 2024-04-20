@@ -1,4 +1,4 @@
-import { fetchUserItem , updateScore, upgradeItem} from "./api.js";
+import { attack, fetchUserItem , updateScore, upgradeItem} from "./api.js";
 import { dataManager } from "./DataManager.js";
 import * as wfl from "../lib/WebFontLoader.js"
 
@@ -9,11 +9,13 @@ export default class Button extends Phaser.GameObjects.Container{
         this.index = ind;
         this.name = name;
         this.img = scene.add.image(0,0,image).setScale(scale);
+        this.damge = 1;
         // level and dmage text.
        
         this.item = item;
         this.lvTxt = scene.add.text(-70,-100, `lv: ${item.itemLevel}`).setFontSize(32).setColor('#ffff00');
         this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(32).setColor('#ffff00');
+        this.damge = item.attackPower;
 
         // upgrade btn
         this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}             ${formatNumber(item.price)} sc.`).setFontSize(20).setColor('#000000');
@@ -51,7 +53,7 @@ export default class Button extends Phaser.GameObjects.Container{
                     it = res.updatedItem.item.item_2;
                     break;
                 }
-                
+                this.damge = it.attackPower; 
                 this.lvTxt.setText(`lv: ${it.itemLevel}`);
                 this.dmgTxt.setText(`atk: ${it.attackPower}`);
                 this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  ${it.price} sc.`)

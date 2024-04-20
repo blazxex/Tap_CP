@@ -27,10 +27,11 @@ export default class MainScene extends Phaser.Scene{
             // attack
             const isAttackSuccess = await attack(this.currentSelectcard);
             // if(res.message === "Attack successful"){
-            if(isAttackSuccess){
-                dataManager.store.values.userScore = await fetchUserScore();
-                clickEvent.emit('OnClick'); // emit event with score
-            }
+            // if(isAttackSuccess){
+            // dataManager.store.values.userScore = await fetchUserScore();
+            dataManager.store.values.userScore += dataManager.store.values.userDamage;
+            clickEvent.emit('OnClick'); // emit event with score
+            // }
             console.log("clicking");
         });
     }
