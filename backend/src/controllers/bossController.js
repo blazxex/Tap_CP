@@ -5,6 +5,7 @@ function getRandomBossName() {
     "Al-kwharizmi",
     "Eijktra",
     "Kadane",
+    "Grader",
   ];
   return names[Math.floor(Math.random() * names.length)];
 }
@@ -20,7 +21,13 @@ export const createBoss = async (req, res) => {
     const bossName = getRandomBossName();
     const totalHp = getRandomHealth();
     const currentHp = totalHp;
-    const weakness = getRandomWeakness();
+    var weakness;
+    if(bossName === "Grader"){
+      weakness = 3;
+    }
+    else{
+      weakness = getRandomWeakness();
+    }
 
     const newBoss = new Boss({
       bossId: new mongoose.Types.ObjectId(),
