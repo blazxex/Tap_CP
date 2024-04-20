@@ -25,6 +25,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('cppIcon', "./asset/cppIcon.png");
         this.load.image('pythonIcon', "./asset/pythonIcon.png");
         this.load.image('javaIcon', "./asset/javaIcon.png");
+        this.load.image('attack-particle','./asset/pythonIcon.png')
         //* load sprite sheet
         this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
             frameWidth:256,
@@ -118,9 +119,19 @@ export default class PlayerUI extends Phaser.Scene{
                 this.pointText.setFontFamily('Kenny')
             }
         });
+
+        this.attackPar = this.add.particles(0, 0, 'attack-particle', {
+            speed: 200,
+            lifespan: 200,
+            scale: { start: 0.2, end: 0 },
+            speed: { min: 200, max: 350 },
+            emitting: false,
+        });
     }
 
     onClickHandler(){
+        let inp = this.input.activePointer;
+        this.attackPar.emitParticleAt(inp.x, inp.y, 4);
         this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)
         // for animation
         let mode = getRndInteger(1,2);

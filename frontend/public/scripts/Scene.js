@@ -22,18 +22,17 @@ export default class MainScene extends Phaser.Scene{
         
         // Determine the larger scale factor to ensure the image fits the screen
         bg.setScale(scaleX,scaleY);
-        this.input.on('pointerup', async () =>
+
+
+        this.input.on('pointerup', async (pointer) =>
         {
-            // attack
             const isAttackSuccess = await attack(this.currentSelectcard);
-            // if(res.message === "Attack successful"){
-            // if(isAttackSuccess){
-            // dataManager.store.values.userScore = await fetchUserScore();
             dataManager.store.values.userScore += dataManager.store.values.userDamage;
             clickEvent.emit('OnClick'); // emit event with score
             // }
             console.log("clicking");
         });
+
     }
 }
 
