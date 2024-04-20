@@ -2,11 +2,9 @@ import mongoose from "mongoose";
 import Boss from "../models/bossModel.js"; // Ensure the path is correct
 function getRandomBossName() {
   const names = [
-    "mockBoss1",
-    "mockBoss2",
-    "mockBoss3",
-    "mockBoss4",
-    "mockBoss5",
+    "Al-kwharizmi",
+    "Eijktra",
+    "Kadane",
   ];
   return names[Math.floor(Math.random() * names.length)];
 }
