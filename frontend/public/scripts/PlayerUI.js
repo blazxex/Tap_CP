@@ -26,6 +26,8 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('pythonIcon', "./asset/pythonIcon.png");
         this.load.image('javaIcon', "./asset/javaIcon.png");
         this.load.image('attack-particle','./asset/pythonIcon.png')
+        this.load.image('attack-particle-2','./asset/javaIcon.png')
+
         //* load sprite sheet
         this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
             frameWidth:256,
@@ -77,13 +79,13 @@ export default class PlayerUI extends Phaser.Scene{
         this.player.play("player-Idle");
 
         //* Level text and Score text
-        this.pointText = this.add.text(.665*WIDTH, .35*HEIGHT, `Score : ${formatNumber(dataManager.store.values.userScore)}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
+        this.pointText = this.add.text(.665*WIDTH, .55*HEIGHT, `Score : ${formatNumber(dataManager.store.values.userScore)}`).setFontFamily('Arial').setFontSize(64).setColor('#ffff00');
 
 
         const item = await fetchUserItem();
         console.log(item);
         //* Card button
-        var card1 = new Button(this,.7*WIDTH, .2*HEIGHT,.5,'cppIcon','card01',item.item.item_0,0);
+        var card1 = new Button(this,.7*WIDTH, .4*HEIGHT,.5,'cppIcon','card01',item.item.item_0,0);
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card1.damge;
@@ -92,7 +94,7 @@ export default class PlayerUI extends Phaser.Scene{
         });
 
 
-        var card2 = new Button(this,.7*WIDTH+150, .2*HEIGHT,.5,'pythonIcon','card02',item.item.item_1,1);
+        var card2 = new Button(this,.7*WIDTH+150, .4*HEIGHT,.5,'pythonIcon','card02',item.item.item_1,1);
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card2.damge;
@@ -100,7 +102,7 @@ export default class PlayerUI extends Phaser.Scene{
             this.selectCard(card2,1);
         });
 
-        var card3 = new Button(this,.7*WIDTH+300, .2*HEIGHT,.5,'javaIcon','card03',item.item.item_2,2);
+        var card3 = new Button(this,.7*WIDTH+300, .4*HEIGHT,.5,'javaIcon','card03',item.item.item_2,2);
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card2.damge;
@@ -134,11 +136,19 @@ export default class PlayerUI extends Phaser.Scene{
             speed: { min: 200, max: 350 },
             emitting: false,
         });
+        this.attackPar2 = this.add.particles(0, 0, 'attack-particle-2', {
+            speed: 200,
+            lifespan: 200,
+            scale: { start: 0.2, end: 0 },
+            speed: { min: 200, max: 350 },
+            emitting: false,
+        });
     }
 
     onClickHandler(){
         let inp = this.input.activePointer;
         this.attackPar.emitParticleAt(inp.x, inp.y, 4);
+        this.attackPar2.emitParticleAt(inp.x, inp.y, 4);
         this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)
         // for animation
         let mode = getRndInteger(1,2);
