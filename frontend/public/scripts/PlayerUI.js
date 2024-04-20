@@ -25,8 +25,8 @@ export default class PlayerUI extends Phaser.Scene{
         this.load.image('cppIcon', "./asset/cppIcon.png");
         this.load.image('pythonIcon', "./asset/pythonIcon.png");
         this.load.image('javaIcon', "./asset/javaIcon.png");
-        this.load.image('attack-particle','./asset/pythonIcon.png')
-        this.load.image('attack-particle-2','./asset/javaIcon.png')
+        this.load.image('attack-particle','./asset/par0.png')
+        this.load.image('attack-particle-2','./asset/par1.png')
 
         //* load sprite sheet
         this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png",{
@@ -132,14 +132,14 @@ export default class PlayerUI extends Phaser.Scene{
         this.attackPar = this.add.particles(0, 0, 'attack-particle', {
             speed: 200,
             lifespan: 200,
-            scale: { start: 0.2, end: 0 },
+            scale: { start: .5, end: 0 },
             speed: { min: 200, max: 350 },
             emitting: false,
         });
         this.attackPar2 = this.add.particles(0, 0, 'attack-particle-2', {
             speed: 200,
             lifespan: 200,
-            scale: { start: 0.2, end: 0 },
+            scale: { start: .5, end: 0 },
             speed: { min: 200, max: 350 },
             emitting: false,
         });
@@ -147,8 +147,8 @@ export default class PlayerUI extends Phaser.Scene{
 
     onClickHandler(){
         let inp = this.input.activePointer;
-        this.attackPar.emitParticleAt(inp.x, inp.y, 4);
-        this.attackPar2.emitParticleAt(inp.x, inp.y, 4);
+        this.attackPar.emitParticleAt(inp.x, inp.y, 2);
+        this.attackPar2.emitParticleAt(inp.x, inp.y, 2);
         this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)
         // for animation
         let mode = getRndInteger(1,2);
