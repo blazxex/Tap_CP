@@ -42,6 +42,10 @@ export default class PlayerUI extends Phaser.Scene{
         
         // sfx
         this.load.audio('hit', "./asset/sfx/hit.wav");
+        this.load.audio('select-card', "./asset/sfx/select.wav");
+        this.load.audio('upgrade-card', "./asset/sfx/upgrade.wav");
+        this.load.audio('cant-upgrade-card', "./asset/sfx/unupgrade.wav");
+
 
     }
 
@@ -83,6 +87,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.add.existing(card1);
         card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card1.damge;
+            this.selectCardSound.play();
             this.selectCard(card1,0);
         });
 
@@ -91,6 +96,7 @@ export default class PlayerUI extends Phaser.Scene{
         this.add.existing(card2);
         card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card2.damge;
+            this.selectCardSound.play();
             this.selectCard(card2,1);
         });
 
@@ -98,14 +104,15 @@ export default class PlayerUI extends Phaser.Scene{
         this.add.existing(card3);
         card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             dataManager.store.values.userDamage = card2.damge;
+            this.selectCardSound.play();
             this.selectCard(card3,2);
         });
 
         this.selectCard(card1,0) // select card 1 as default
 
         //* hit sound
-        this.hitSound = this.sound.add('hit');
-        this.hitSound.setVolume(0.2);
+        this.hitSound = this.sound.add('hit').setVolume(0.2);
+        this.selectCardSound = this.sound.add('select-card').setVolume(0.2);
 
         setInterval(async () => {
             await this.pointText.setText(`Score : ${formatNumber(dataManager.store.values.userScore)}`)

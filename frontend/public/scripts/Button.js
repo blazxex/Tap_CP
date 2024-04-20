@@ -27,6 +27,9 @@ export default class Button extends Phaser.GameObjects.Container{
         this.add(this.upgradeBtn)
         this.add(this.upgradeTxt)
 
+        // this.upgradeSound = this.sound.add('upgrade-card').setVolume(0.2);
+        // this.unupgradeSound = this.sound.add('un-upgrade-card').setVolume(0.2);
+
         this.price = item.price;
 
         this.upgradeBtn.setInteractive()
@@ -58,7 +61,11 @@ export default class Button extends Phaser.GameObjects.Container{
                 this.dmgTxt.setText(`atk: ${it.attackPower}`);
                 this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  ${it.price} sc.`)
             }
+            else{
+
+            }
         })
+
 
 
         this.whiteFill = scene.add.rectangle(0, 0, this.img.width*scale, this.img.height*scale, 0x000000);
