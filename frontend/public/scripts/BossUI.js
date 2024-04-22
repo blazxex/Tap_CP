@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT,OffsetFromOrigin } from "./constant.js";
+import { WIDTH, HEIGHT,OffsetFromOrigin, scale } from "./constant.js";
 import { fetchBoss } from "./api.js";
 import { clickEvent } from "./eventCenter.js";
 
@@ -37,7 +37,7 @@ export default class BossUI extends Phaser.Scene {
         clickEvent.on("OnClick", this.onClickHandler, this);
         // Fetch the data of the boss
         // Create and scale the boss image
-        this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Eijktra");
+        this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Eijktra").setScale(scale);
         this.anims.create({
             key:"Al-kwharizmi",
             frames: this.anims.generateFrameNumbers("Al-kwharizmi"),
@@ -57,9 +57,6 @@ export default class BossUI extends Phaser.Scene {
             repeat:-1
         })
         this.bossImage.play("Eijktra");
-        //const scaleX = WIDTH / this.bossImage.width;
-        //const scaleY = HEIGHT / this.bossImage.height;
-        //this.bossImage.setScale(.5 * scaleX, .7 * scaleY);
 
         // Create HP bar
         this.createHpBar();

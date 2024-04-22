@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT, OffsetFromOrigin } from "./constant.js";
+import { WIDTH, HEIGHT, OffsetFromOrigin, scale } from "./constant.js";
 import { clickEvent, selectCardEvent, setupEvent } from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
@@ -65,7 +65,7 @@ export default class PlayerUI extends Phaser.Scene {
     //* Setup player image
     this.player = this.add.sprite(
       WIDTH / 2,
-      OffsetFromOrigin(HEIGHT, 0.3),
+      HEIGHT-150*scale,
       "player-IDLE"
     );
     this.anims.create({
@@ -91,20 +91,32 @@ export default class PlayerUI extends Phaser.Scene {
     //* Level text and Score text
     this.pointText = this.add
       .text(
-        0.665 * WIDTH,
-        0.4 * HEIGHT+150,
+        WIDTH+((WIDTH>HEIGHT)? -650:-250),
+        HEIGHT+((WIDTH>HEIGHT)? -350:-150),
         `Score : ${formatNumber(dataManager.store.values.userScore)}`
       )
       .setFontFamily("Arial")
       .setFontSize(64)
       .setColor("#ffff00");
 
+
+    let offsetX = [0,0,0];
+    let offsetY = [0,0,0];
+    if(WIDTH>HEIGHT){
+      offsetX = [-600,-450,-300];
+      offsetY = [-500,-500,-500];
+    }
+    else{
+      offsetX = [-100,-100,-100];
+      offsetY = [-800,-550,-300];
+    }
+
     const item = await fetchUserItem();
     //* Card button
     var card1 = new Button(
       this,
-      0.7 * WIDTH,
-      0.4 * HEIGHT,
+      WIDTH+offsetX[0],
+      HEIGHT+offsetY[0],
       0.5,
       "cppIcon",
       "card01",
@@ -120,8 +132,8 @@ export default class PlayerUI extends Phaser.Scene {
 
     var card2 = new Button(
       this,
-      0.7 * WIDTH + 150,
-      0.4 * HEIGHT,
+      WIDTH+offsetX[1],
+      HEIGHT+offsetY[1],
       0.5,
       "pythonIcon",
       "card02",
@@ -137,8 +149,8 @@ export default class PlayerUI extends Phaser.Scene {
 
     var card3 = new Button(
       this,
-      0.7 * WIDTH + 300,
-      0.4 * HEIGHT,
+      WIDTH+offsetX[2],
+      HEIGHT+offsetY[2],
       0.5,
       "javaIcon",
       "card03",

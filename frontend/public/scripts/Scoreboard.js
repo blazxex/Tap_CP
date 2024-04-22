@@ -1,4 +1,5 @@
 import * as wfl from "../lib/WebFontLoader.js" 
+import { HEIGHT, scale, WIDTH } from "./constant.js";
 export default class Scoreboard extends Phaser.GameObjects.Container {
     constructor(scene, x, y, scores) {
         super(scene, x, y);
@@ -21,11 +22,11 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         for (let i = 0; i < this.maxVisibleScores; i++) {
             const score = this.scores[i];
             if (score) {
-                const text = this.scene.add.text(0, 0, `${score.name}: ${score.value}`, { fontSize: 30, color: '#ffffff' });
+               const text = this.scene.add.text(10, 0, `${score.name}: ${score.value}`, { fontSize: 30*scale, color: '#ffffff' });
                 this.scoreTexts.push(text);
             } else {
                 // Create blank box
-                const text = this.scene.add.text(0, 0, '', { fontFamily: 'Arial', fontSize: 24, color: '#ffffff' });
+                const text = this.scene.add.text(10, 0, '', {fontSize:30*scale , color: '#ffffff' });
                 text.setBackgroundColor('#ffff00'); // Yellow background
                 text.setStroke('#ff8c00', 4); // Orange outline
                 this.scoreTexts.push(text);
@@ -33,7 +34,7 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         }
 
         // Position Text objects vertically using VBox layout
-        let yOffset = 0;
+        let yOffset = (WIDTH > HEIGHT) ? 0 : 200;
         this.scoreTexts.forEach(text => {
             text.y = yOffset;
             yOffset += text.height + 10; // Adjust spacing between Text objects

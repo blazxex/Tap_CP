@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT } from "./constant.js";
+import { WIDTH, HEIGHT ,scaleX, scaleY, scale} from "./constant.js";
 import { clickEvent, selectCardEvent, setupEvent } from "./eventCenter.js";
 import { fetchUser, fetchBoss, attack, fetchUserScore } from "./api.js";
 import { dataManager } from "./DataManager.js";
@@ -18,12 +18,9 @@ export default class MainScene extends Phaser.Scene {
       this
     );
 
-    var bg = this.add.image(WIDTH / 2, HEIGHT / 2, "sky");
-    const scaleX = WIDTH / bg.width;
-    const scaleY = HEIGHT / bg.height;
+    this.bg = this.add.image(WIDTH / 2, HEIGHT / 2, "sky");
+    this.bg.setScale(scale);
 
-    // Determine the larger scale factor to ensure the image fits the screen
-    bg.setScale(scaleX, scaleY);
 
     this.input.on("pointerup", async (pointer) => {
       const isAttackSuccess = attack(this.currentSelectcard);

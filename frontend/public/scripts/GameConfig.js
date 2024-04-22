@@ -15,9 +15,11 @@ async function setup(){
     var scoreUI = new ScoreBoardUI();
 
     var config = {
-        mode: Phaser.Scale.RESIZE,
+        scale:{
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+        },
         type: Phaser.AUTO,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
         width: WIDTH,
         height: HEIGHT,
         transparent: true,
@@ -27,13 +29,15 @@ async function setup(){
 
     };
 
+    // const game = new Phaser.Game(config);
     game = new Phaser.Game(config);
     window.addEventListener('resize', resizeGame);
+    function resizeGame() {
+        // Resize the game to fit the new window dimensions
+        game.scale.resize(WIDTH, HEIGHT);
+    }   
 }
 
-function resizeGame() {
-    // Resize the game to fit the new window dimensions
-    game.scale.resize(WIDTH, HEIGHT);
-}
+
 
 
