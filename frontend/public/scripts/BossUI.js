@@ -1,5 +1,6 @@
 import { WIDTH, HEIGHT,OffsetFromOrigin } from "./constant.js";
 import { fetchBoss } from "./api.js";
+import { clickEvent } from "./eventCenter.js";
 
 export default class BossUI extends Phaser.Scene {
     constructor() {
@@ -32,6 +33,8 @@ export default class BossUI extends Phaser.Scene {
     }
 
     async create() {
+        // listen to event
+        clickEvent.on("OnClick", this.onClickHandler, this);
         // Fetch the data of the boss
         // Create and scale the boss image
         this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Eijktra");
@@ -88,6 +91,13 @@ export default class BossUI extends Phaser.Scene {
             // Update the HP bar
             this.updateHpBar();
         }
+    }
+
+    onClickHandler() {
+        this.bossImage.setTint(0xff0000);
+        setTimeout(()=> {
+            this.bossImage.setTint(0xffffff);
+        }, 50); 
     }
 
     createHpBar() {
