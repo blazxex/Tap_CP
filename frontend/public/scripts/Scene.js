@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene{
 
         this.input.on('pointerup', async (pointer) =>
         {
-            const isAttackSuccess = await attack(this.currentSelectcard);
+            const isAttackSuccess = attack(this.currentSelectcard);
             dataManager.store.values.userScore += dataManager.store.values.userDamage;
             clickEvent.emit('OnClick'); // emit event with score
             // }
