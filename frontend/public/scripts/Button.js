@@ -19,7 +19,8 @@ export default class Button extends Phaser.GameObjects.Container{
 
         // upgrade btn
         this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}             ${formatNumber(item.price)} sc.`).setFontSize(20).setColor('#000000');
-        this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
+        // this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
+        this.upgradeBtn = scene.add.image(0, 110, "upgrade-button").setScale(scale);
 
         this.add(this.img);
         this.add(this.lvTxt);
@@ -27,8 +28,8 @@ export default class Button extends Phaser.GameObjects.Container{
         this.add(this.upgradeBtn)
         this.add(this.upgradeTxt)
 
-        // this.upgradeSound = this.sound.add('upgrade-card').setVolume(0.2);
-        // this.unupgradeSound = this.sound.add('un-upgrade-card').setVolume(0.2);
+        this.upgradeSound = scene.sound.add('upgrade-card').setVolume(0.2);
+        this.unupgradeSound = scene.sound.add('un-upgrade-card').setVolume(0.2);
 
         this.price = item.price;
 
@@ -41,6 +42,7 @@ export default class Button extends Phaser.GameObjects.Container{
         })
         .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, async () => {
             if(dataManager.store.values.userScore >= this.price){
+                this.upgradeSound.play();
                 dataManager.store.values.userScore -= this.price;
                 const newScore = await updateScore(localStorage.getItem("userCookieId"), dataManager.store.values.userScore);
                 const res = await upgradeItem(this.index);
@@ -62,6 +64,7 @@ export default class Button extends Phaser.GameObjects.Container{
                 this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  ${it.price} sc.`)
             }
             else{
+                this.unupgradeSound.play();
 
             }
         })

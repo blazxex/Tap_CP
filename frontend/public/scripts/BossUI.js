@@ -119,5 +119,4 @@ export default class BossUI extends Phaser.Scene {
             this.hpBarFill.fillRect(this.hpBarX, this.hpBarY-10, hpBarLength, this.hpBarHeight);
         }
     }
-
 }

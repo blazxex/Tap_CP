@@ -29,8 +29,6 @@ export default class MainScene extends Phaser.Scene {
       const isAttackSuccess = attack(this.currentSelectcard);
       dataManager.store.values.userScore += dataManager.store.values.userDamage;
       clickEvent.emit("OnClick"); // emit event with score
-      // }
-      console.log("clicking");
     });
   }
 }

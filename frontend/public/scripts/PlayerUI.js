@@ -27,6 +27,7 @@ export default class PlayerUI extends Phaser.Scene {
     this.load.image("javaIcon", "./asset/javaIcon.webp");
     this.load.image("attack-particle", "./asset/par0.webp");
     this.load.image("attack-particle-2", "./asset/par1.webp");
+    this.load.image("upgrade-button", "./asset/upgrade-button.png");
 
     //* load sprite sheet
     this.load.spritesheet("player-IDLE", "./asset/player-Sheet.png", {
@@ -54,7 +55,7 @@ export default class PlayerUI extends Phaser.Scene {
     this.load.audio("hit", "./asset/sfx/hit.wav");
     this.load.audio("select-card", "./asset/sfx/select.wav");
     this.load.audio("upgrade-card", "./asset/sfx/upgrade.wav");
-    this.load.audio("cant-upgrade-card", "./asset/sfx/unupgrade.wav");
+    this.load.audio("un-upgrade-card", "./asset/sfx/unupgrade.wav");
   }
 
   async create() {
@@ -91,7 +92,7 @@ export default class PlayerUI extends Phaser.Scene {
     this.pointText = this.add
       .text(
         0.665 * WIDTH,
-        0.55 * HEIGHT,
+        0.4 * HEIGHT+150,
         `Score : ${formatNumber(dataManager.store.values.userScore)}`
       )
       .setFontFamily("Arial")
@@ -99,7 +100,6 @@ export default class PlayerUI extends Phaser.Scene {
       .setColor("#ffff00");
 
     const item = await fetchUserItem();
-    console.log(item);
     //* Card button
     var card1 = new Button(
       this,
@@ -208,9 +208,6 @@ export default class PlayerUI extends Phaser.Scene {
     // If another card is already selected, disable it
     if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
       this.selectedCard.whiteFill.setAlpha(0);
-      console.log(
-        `Cleared tint and enabled interaction for previously selected card: ${this.selectedCard.name}`
-      );
     }
 
     this.currentSelectedCardIndex = ind;
@@ -218,9 +215,6 @@ export default class PlayerUI extends Phaser.Scene {
     selectCardEvent.emit("OnSelectCard", ind);
     this.selectedCard = clickedCard;
     this.selectedCard.whiteFill.setAlpha(0.4);
-    console.log(
-      `Set tint to white and disabled interaction for selected card: ${this.selectedCard.name}`
-    );
   }
 }
 
