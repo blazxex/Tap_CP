@@ -16,7 +16,7 @@ class DataManager extends Phaser.Events.EventEmitter{
         this.store.set("userScore",userScore) 
         setInterval(async () => {
             await await fetchUserScore();
-        }, 50);
+        }, 500);
     }
 }
 
