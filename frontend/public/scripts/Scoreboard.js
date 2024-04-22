@@ -1,3 +1,4 @@
+import * as wfl from "../lib/WebFontLoader.js" 
 export default class Scoreboard extends Phaser.GameObjects.Container {
     constructor(scene, x, y, scores) {
         super(scene, x, y);
@@ -20,7 +21,7 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         for (let i = 0; i < this.maxVisibleScores; i++) {
             const score = this.scores[i];
             if (score) {
-                const text = this.scene.add.text(0, 0, `${score.name}: ${score.value}`, { fontFamily: 'Arial', fontSize: 24, color: '#ffffff' });
+                const text = this.scene.add.text(0, 0, `${score.name}: ${score.value}`, { fontSize: 30, color: '#ffffff' });
                 this.scoreTexts.push(text);
             } else {
                 // Create blank box
@@ -36,6 +37,16 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         this.scoreTexts.forEach(text => {
             text.y = yOffset;
             yOffset += text.height + 10; // Adjust spacing between Text objects
+        });
+        wfl.default.load({
+            custom:{
+                families: ['Kenny'],
+            },
+            active : () => {
+                this.scoreTexts.forEach(st => {
+                    st.setFontFamily('Kenny');
+                });
+            }
         });
     }
 

@@ -18,7 +18,7 @@ export default class Button extends Phaser.GameObjects.Container{
         this.damge = item.attackPower;
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50,100, `lv:${item.itemLevel+1}             ${formatNumber(item.price)} sc.`).setFontSize(20).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50,90, `lv:${item.itemLevel+1}      ${formatNumber(item.price)} sc.`).setFontSize(24).setColor('#000000');
         // this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
         this.upgradeBtn = scene.add.image(0, 110, "upgrade-button").setScale(scale);
 
