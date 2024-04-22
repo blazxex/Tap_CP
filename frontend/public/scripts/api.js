@@ -19,7 +19,7 @@ async function NewUser(uci){
                 lastActivate: lastActivate,
                 ip: ip,
             };
-            await postData("http://localhost:3222/users/", newUser);
+            await postData(`${BACKEND_URL}:3222/users/`, newUser);
         });
     localStorage.setItem("userCookieId", newUserCookieId);
     console.log(newUser);
