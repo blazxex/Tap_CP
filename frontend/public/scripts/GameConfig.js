@@ -15,7 +15,7 @@ async function setup(){
     var scoreUI = new ScoreBoardUI();
 
     var config = {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         type: Phaser.AUTO,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: WIDTH,
@@ -27,9 +27,13 @@ async function setup(){
 
     };
 
-    const game = new Phaser.Game(config);
+    game = new Phaser.Game(config);
+    window.addEventListener('resize', resizeGame);
 }
 
-
+function resizeGame() {
+    // Resize the game to fit the new window dimensions
+    game.scale.resize(WIDTH, HEIGHT);
+}
 
 
