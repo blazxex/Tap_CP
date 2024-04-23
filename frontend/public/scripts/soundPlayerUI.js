@@ -1,5 +1,4 @@
 import { WIDTH,HEIGHT } from "./constant.js";
-import * as wfl from "../lib/WebFontLoader.js"
 
 export default class soundPlayerUI extends Phaser.Scene {
     constructor() {
@@ -11,14 +10,13 @@ export default class soundPlayerUI extends Phaser.Scene {
     preload() {
         // Load the song file
         this.load.audio('TWF', './asset/Mega.mp3');
-        console.log("create soundboard")
         
     }
 
     // Create scene elements
     create() {
         // Add a button to start the music
-        const muteButton = this.add.text(WIDTH / 1.5, HEIGHT - 50, 'Mute Music', { fill: '#ffff00' , fontSize: '40px'});
+        const muteButton = this.add.text(WIDTH-150, HEIGHT - 50, 'Mute Music', { fill: '#ffff00' , fontSize: '40px'}).setFontFamily('Kenny');
         muteButton.setInteractive(); // Make the button interactive
 
         // Start playing the music
@@ -27,16 +25,6 @@ export default class soundPlayerUI extends Phaser.Scene {
         this.music.play({ loop: true });
         this.music.isMuted = false;
         this.music.setMute(false);
-        wfl.default.load({
-            custom:{
-                families: ['Kenny'],
-            },
-            active : () => {
-                // this.scoreTexts.forEach(st => {
-                muteButton.setFontFamily('Kenny');
-                // });
-            }
-        });
 
         // Event handler for the button click
         muteButton.on('pointerdown', () => {

@@ -7,6 +7,7 @@ export const updateWidthAndHeight = () => {
 };
 export const scaleX = WIDTH/1920;
 export const scaleY = HEIGHT/1080;
+export const ratio = WIDTH/HEIGHT;
 export const scale = (scaleX> scaleY) ? scaleX: scaleY;
 export const scale_m = (scaleX< scaleY) ? scaleX: scaleY;
 // offset from orgin (WIDTH, HEIGHT) by offset 

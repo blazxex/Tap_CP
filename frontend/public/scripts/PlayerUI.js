@@ -4,7 +4,6 @@ import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";
 import { fetchChangeUserName, fetchUserItem, upgradeItem } from "./api.js";
-import * as WebFontLoader from "../lib/WebFontLoader.js";
 
 export default class PlayerUI extends Phaser.Scene {
   currentSelectedCardIndex;
@@ -69,7 +68,7 @@ export default class PlayerUI extends Phaser.Scene {
       "player-IDLE"
     ).setScale(scale);
 
-    this.userNameBtn = this.add.text(WIDTH/2, HEIGHT-270*scale, dataManager.store.values.userName).setOrigin(0.5, 0.5).setInteractive().setColor("#ffff00").setFontSize(32*scale);
+    this.userNameBtn = this.add.text(WIDTH/2, HEIGHT-270*scale, dataManager.store.values.userName).setOrigin(0.5, 0.5).setInteractive().setColor("#ffff00").setFontSize(32*scale).setFontFamily('Kenny');
     this.userNameBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
       this.userNameBtn.setColor("#e3ba24");
     });
@@ -79,7 +78,6 @@ export default class PlayerUI extends Phaser.Scene {
     this.userNameBtn.on('pointerup', () => {
       const name = prompt("Please enter your name:", "");
       if (name != null && name.trim() !== "") {
-          // TODO : change name api.
           dataManager.store.values.userName = name;
           this.userNameBtn.setText(name);
           fetchChangeUserName();
@@ -111,16 +109,16 @@ export default class PlayerUI extends Phaser.Scene {
     //* Level text and Score text
     this.pointText = this.add
       .text(
-        WIDTH+((WIDTH>HEIGHT)? -650*scale:-250),
+        WIDTH+((WIDTH>HEIGHT)? -600*scaleX:-250),
         HEIGHT+((WIDTH>HEIGHT)? -350*scale:-150),
         `Score : ${formatNumber(dataManager.store.values.userScore)}`
       )
-      .setFontFamily("Arial")
+      .setFontFamily('Kenny')
       .setFontSize(64)
       .setColor("#ffff00");
 
-    let startOffsetX=300*scale;
-    let diffX=150*scaleX;
+    let startOffsetX=200*scaleX;
+    let diffX=150*scale;
     let offsetX = [0,0,0];
     let offsetY = [0,0,0];
     if(WIDTH>HEIGHT){
@@ -198,15 +196,6 @@ export default class PlayerUI extends Phaser.Scene {
       );
     }, 50);
 
-    WebFontLoader.default.load({
-      custom: {
-        families: ["Kenny"],
-      },
-      active: () => {
-        this.pointText.setFontFamily("Kenny");
-        this.userNameBtn.setFontFamily("Kenny");
-      },
-    });
 
     this.attackPar = this.add.particles(0, 0, "attack-particle", {
       speed: 200,

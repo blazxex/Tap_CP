@@ -2,7 +2,6 @@ import { WIDTH, HEIGHT,OffsetFromOrigin, scale, scale_m } from "./constant.js";
 import { fetchBoss } from "./api.js";
 import { clickEvent } from "./eventCenter.js";
 import { dataManager } from "./DataManager.js";
-import * as wfl from "../lib/WebFontLoader.js"
 
 export default class BossUI extends Phaser.Scene {
     constructor() {
@@ -103,17 +102,8 @@ export default class BossUI extends Phaser.Scene {
         this.bossTextPosY = this.hpBarY-70;
         this.bossTextPosX = (WIDTH/2)-230;
         this.weaknessTextPosX = (WIDTH/2)+170;
-        this.weaknessText = this.add.text(this.weaknessTextPosX, this.bossTextPosY, "WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: 40, color: '#ffff00' });
+        this.weaknessText = this.add.text(this.weaknessTextPosX, this.bossTextPosY, "WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: 40, color: '#ffff00' }).setFontFamily('Kenny');
 
-
-        wfl.default.load({
-            custom:{
-                families: ['Kenny'],
-            },
-            active : () => {
-                this.weaknessText.setFontFamily('Kenny');
-            }
-        });
 
         // Update boss data and move boss every 0.5 seconds
         setInterval(async () => {

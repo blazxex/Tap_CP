@@ -1,6 +1,6 @@
 import { attack, fetchUserItem , updateScore, upgradeItem} from "./api.js";
 import { dataManager } from "./DataManager.js";
-import * as wfl from "../lib/WebFontLoader.js"
+// import * as wfl from "../lib/WebFontLoader.js"
 
 export default class Button extends Phaser.GameObjects.Container{
     // upgradeBtn;
@@ -13,12 +13,12 @@ export default class Button extends Phaser.GameObjects.Container{
         // level and dmage text.
        
         this.item = item;
-        this.lvTxt = scene.add.text(-70*scale*2,-100*scale*2, `lv: ${item.itemLevel}`).setFontSize(32*scale*2).setColor('#ffff00');
-        this.dmgTxt = scene.add.text(0*scale*2,-100*scale*2, `dmg: ${item.attackPower}`).setFontSize(32*scale*2).setColor('#ffff00');
+        this.lvTxt = scene.add.text(-70*scale*2,-100*scale*2, `lv: ${item.itemLevel}`).setFontSize(32*scale*2).setColor('#ffff00').setFontFamily('Kenny');
+        this.dmgTxt = scene.add.text(0*scale*2,-100*scale*2, `dmg: ${item.attackPower}`).setFontSize(32*scale*2).setColor('#ffff00').setFontFamily('Kenny');
         this.damge = item.attackPower;
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50*scale*2,90*scale*2, `lv:${item.itemLevel+1}      ${formatNumber(item.price)} sc.`).setFontSize(24*scale*2).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50*scale*2,90*scale*2, `lv:${item.itemLevel+1}      ${formatNumber(item.price)} sc.`).setFontSize(24*scale*2).setColor('#000000').setFontFamily('Kenny');
         // this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
         this.upgradeBtn = scene.add.image(0, 110*scale*2, "upgrade-button").setScale(scale);
 
@@ -88,16 +88,16 @@ export default class Button extends Phaser.GameObjects.Container{
                 this.img.setAlpha(1)//set image opacity to 1
             })
 
-        wfl.default.load({
-            custom:{
-                families: ['Kenny'],
-            },
-            active : () => {
-                this.lvTxt.setFontFamily('Kenny')
-                this.dmgTxt.setFontFamily('Kenny')
-                this.upgradeTxt.setFontFamily('Kenny')
-            }
-        });
+        // wfl.default.load({
+        //     custom:{
+        //         families: ['Kenny'],
+        //     },
+        //     active : () => {
+        //         this.lvTxt.setFontFamily('Kenny')
+        //         this.dmgTxt.setFontFamily('Kenny')
+        //         this.upgradeTxt.setFontFamily('Kenny')
+        //     }
+        // });
     }
 
 

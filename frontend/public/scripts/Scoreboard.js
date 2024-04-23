@@ -1,4 +1,3 @@
-import * as wfl from "../lib/WebFontLoader.js" 
 import { HEIGHT, scale, WIDTH } from "./constant.js";
 import { dataManager } from "./DataManager.js";
 
@@ -24,7 +23,7 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         for (let i = 0; i < this.maxVisibleScores; i++) {
             const score = this.scores[i];
             if (score) {
-               const text = this.scene.add.text(10, 0, `${score.name}: ${score.value}`, { fontSize: 30*scale, color: '#ffffff' });
+               const text = this.scene.add.text(10, 0, `${score.name}: ${score.value}`, { fontSize: 30*scale, color: '#ffffff' }).setFontFamily('Kenny');
                 this.scoreTexts.push(text);
             } else {
                 // Create blank box
