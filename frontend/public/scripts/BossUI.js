@@ -81,9 +81,16 @@ export default class BossUI extends Phaser.Scene {
     async updateBossData() {
         // Fetch the updated data of the boss
         const bossData = await fetchBoss();
+        //console.log(this.bossname)
         if (bossData !== undefined) {
             // If bossData is defined, update UI with boss data
-            this.bossname = bossData.bossname;
+            if(this.bossname != null && this.bossname != bossData.bossname){
+                this.bossImage.destroy();
+                this.anims.remove(this.bossname); // Remove the animation
+                this.bossname = bossData.bossname;
+                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossname);
+                this.bossImage.play(bossname);
+            }
             this.totalHp = bossData.totalHp;
             this.currentHp = bossData.currentHp;
             // Update the HP bar

@@ -45,7 +45,7 @@ export default class ScoreBoardUI extends Phaser.Scene{
                 this.scoreboard.updateScores(updatedScores);
             }, 500);
         } catch (error) {
-            console.error('Error fetching top scores:', error);
+            //console.error('Error fetching top scores:', error);
         }
         const inputField = this.add.dom(WIDTH/2, HEIGHT/2).createFromHTML('<input type="text">');
 
