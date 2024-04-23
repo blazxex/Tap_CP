@@ -8,7 +8,7 @@ export default class soundPlayerUI extends Phaser.Scene {
     // Preload assets
     preload() {
         // Load the song file
-        this.load.audio('TWF', './asset/ThoseWhoFight.mp3');
+        this.load.audio('TWF', './asset/Mega.mp3');
         console.log("create soundboard")
         
     }
