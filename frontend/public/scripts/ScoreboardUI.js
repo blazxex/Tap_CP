@@ -48,15 +48,5 @@ export default class ScoreBoardUI extends Phaser.Scene{
         } catch (error) {
             //console.error('Error fetching top scores:', error);
         }
-        const inputField = this.add.dom(WIDTH/2, HEIGHT/2).createFromHTML('<input type="text">');
-
-        // Style the input field (optional)
-        inputField.node.style.width = '200px';
-        inputField.node.style.padding = '10px';
-        inputField.node.style.fontSize = '20px';
-        inputField.node.style.display = 'block';
-        console.log(this.children.exists(inputField));
-        console.log(inputField);
-        console.log(inputField.node);
     }
 }

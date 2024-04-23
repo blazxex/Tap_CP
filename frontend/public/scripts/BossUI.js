@@ -1,7 +1,8 @@
-import { WIDTH, HEIGHT,OffsetFromOrigin, scale } from "./constant.js";
+import { WIDTH, HEIGHT,OffsetFromOrigin, scale, scale_m } from "./constant.js";
 import { fetchBoss } from "./api.js";
 import { clickEvent } from "./eventCenter.js";
 import { dataManager } from "./DataManager.js";
+import * as wfl from "../lib/WebFontLoader.js"
 
 export default class BossUI extends Phaser.Scene {
     constructor() {
@@ -56,6 +57,7 @@ export default class BossUI extends Phaser.Scene {
         // Fetch the data of the boss
         // Create and scale the boss image
         this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),"Eijktra").setScale(scale);
+
         this.anims.create({
             key:"Al-kwharizmi",
             frames: this.anims.generateFrameNumbers("Al-kwharizmi"),
@@ -97,6 +99,21 @@ export default class BossUI extends Phaser.Scene {
         // Create HP bar
         this.createHpBar();
 
+        this.bossTextPosY = this.hpBarY-70;
+        this.bossTextPosX = (WIDTH/2)-230;
+        this.weaknessTextPosX = (WIDTH/2)+170;
+        this.weaknessText = this.add.text(this.weaknessTextPosX, this.bossTextPosY, "WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: 40, color: '#ffff00' });
+
+
+        wfl.default.load({
+            custom:{
+                families: ['Kenny'],
+            },
+            active : () => {
+                this.weaknessText.setFontFamily('Kenny');
+            }
+        });
+
         // Update boss data and move boss every 0.5 seconds
         setInterval(async () => {
             await this.updateBossData();
@@ -135,16 +152,14 @@ export default class BossUI extends Phaser.Scene {
             if (this.bossText) {
                 this.bossText.destroy();
             }
+
             if(this.bossName == "Grader"){
-                this.bossText = this.add.sprite(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
+                this.bossText = this.add.sprite(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
                 this.bossText.play(this.bossName+'Text');
-                this.weaknessText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
-                this.weaknessText.setPosition(2.3*WIDTH/4, HEIGHT/15);
             }else{
-                this.bossText = this.add.image(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
-                this.weaknessText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
-                this.weaknessText.setPosition(2.3*WIDTH/4, HEIGHT/15);
+                this.bossText = this.add.image(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
             }
+            this.weaknessText.setText("WEAKNESS: "+ String(this.weakness[this.bossWeakness]));
         }
     }
 
