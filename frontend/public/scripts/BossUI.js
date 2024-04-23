@@ -34,7 +34,7 @@ export default class BossUI extends Phaser.Scene {
             frameHeight:384
         });
         this.load.spritesheet("Grader", "./asset/Grader-sheet.png",{
-            frameWidth:416,
+            frameWidth:408,
             frameHeight:416
         });
     }
