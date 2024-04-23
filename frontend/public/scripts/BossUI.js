@@ -40,6 +40,10 @@ export default class BossUI extends Phaser.Scene {
             frameWidth:408,
             frameHeight:416
         });
+        this.load.spritesheet("Johndou", "./asset/Johndou.png",{
+            frameWidth:384,
+            frameHeight:384
+        });
         this.load.spritesheet("GraderText", "./asset/greaderText.png",{
             frameWidth:384,
             frameHeight:160
@@ -77,12 +81,18 @@ export default class BossUI extends Phaser.Scene {
             repeat:-1
         })
         this.anims.create({
+            key:"Johndou",
+            frames: this.anims.generateFrameNumbers("Johndou"),
+            frameRate:8,
+            repeat:-1
+        })
+        this.anims.create({
             key:"GraderText",
             frames: this.anims.generateFrameNumbers("GraderText"),
             frameRate:4,
             repeat:-1
         })
-        this.bossImage.play("Eijktra");
+        this.bossImage.play("Johndou");
 
         // Create HP bar
         this.createHpBar();
@@ -128,8 +138,12 @@ export default class BossUI extends Phaser.Scene {
             if(this.bossName == "Grader"){
                 this.bossText = this.add.sprite(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
                 this.bossText.play(this.bossName+'Text');
+                this.weaknessText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
+                this.weaknessText.setPosition(2.3*WIDTH/4, HEIGHT/15);
             }else{
                 this.bossText = this.add.image(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
+                this.weaknessText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
+                this.weaknessText.setPosition(2.3*WIDTH/4, HEIGHT/15);
             }
         }
     }
