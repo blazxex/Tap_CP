@@ -69,7 +69,7 @@ export default class PlayerUI extends Phaser.Scene {
       "player-IDLE"
     ).setScale(scale);
 
-    this.userNameBtn = this.add.text(WIDTH/2, HEIGHT-270*scale, dataManager.store.values.userName).setOrigin(0.5, 0.5).setInteractive().setColor("#ffff00").setFontSize(32);
+    this.userNameBtn = this.add.text(WIDTH/2, HEIGHT-270*scale, dataManager.store.values.userName).setOrigin(0.5, 0.5).setInteractive().setColor("#ffff00").setFontSize(32*scale);
     this.userNameBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
       this.userNameBtn.setColor("#e3ba24");
     });

@@ -133,7 +133,7 @@ export default class BossUI extends Phaser.Scene {
                 this.bossName = bossData.bossName;
                 this.bossWeakness = bossData.weakness;
                 dataManager.store.values.bossWeakness = this.bossWeakness;
-                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName);
+                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName).setScale(scale);
                 this.bossImage.play(this.bossName);
                 const tween = this.add.tween({
                     targets: this.bossImage, // Corrected targets property
