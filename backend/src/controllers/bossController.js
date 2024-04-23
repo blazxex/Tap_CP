@@ -11,7 +11,7 @@ function getRandomBossName() {
 }
 
 function getRandomHealth() {
-  return (Math.floor(Math.random() * 1000) + 50) * 10;
+  return ((Math.floor(Math.random() * 1000) + 50)*10) + 10000;
 }
 function getRandomWeakness(){//0,1,2
   return (Math.floor(Math.random() * 3))
