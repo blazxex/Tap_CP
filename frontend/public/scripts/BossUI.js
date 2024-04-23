@@ -33,6 +33,10 @@ export default class BossUI extends Phaser.Scene {
             frameWidth:384,
             frameHeight:384
         });
+        this.load.spritesheet("Grader", "./asset/Grader-sheet.png",{
+            frameWidth:416,
+            frameHeight:416
+        });
     }
 
     async create() {
@@ -56,6 +60,12 @@ export default class BossUI extends Phaser.Scene {
         this.anims.create({
             key:"Eijktra",
             frames: this.anims.generateFrameNumbers("Eijktra"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.anims.create({
+            key:"Grader",
+            frames: this.anims.generateFrameNumbers("Grader"),
             frameRate:4,
             repeat:-1
         })
