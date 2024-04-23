@@ -65,6 +65,32 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const changeUserName = async (req, res) => {
+  const { userCookieId, newUsername} = req.body;
+  console.log(userCookieId, newUsername);
+  if (!userCookieId) {
+    return res.status(400).json({ message: "No userCookieId provided" });
+  }
+
+  try {
+    const user = await User.findOne({ userCookieId: userCookieId });
+    if (user) {
+      let update = {};
+      update[`user.userName`] = newUsername; // Dot notation for nested fields
+
+      const updatedUser = await User.findOneAndUpdate(
+        { userCookieId },
+        { $set: update }, // Using $set to specify the fields to update
+        { new: true }
+      );
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving user", error: error });
+  }
+};
+
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
