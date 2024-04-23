@@ -1,4 +1,4 @@
-import { fetchUserScore } from "./api.js";
+import { fetchUserScore, updateScore } from "./api.js";
 import { sendUserScore  } from "./api.js";
 class DataManager extends Phaser.Events.EventEmitter{
     store;

@@ -98,20 +98,21 @@ export async function fetchUserScore() {
   return userScore.score;
 }
 
-export async function sendUserScore(score){
+export async function sendUserScore(_score){
   try{
     const uci = localStorage.getItem("userCookieId");
-    const res = await fetch('${BACKEND_URL}/board/update',{
+    const res = await fetch(`${BACKEND_URL}/board/update`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         userCookieId : uci,
-        newscore : score,
+        score : _score,
       }),
     });
     if  (res.ok) {
+      console.log("yo");
       return true;
     }
     return false;
@@ -200,7 +201,7 @@ export async function upgradeItem(ind) {
   return res;
 }
 
-export async function updateScore(ind, sco) {
+export async function updateScore(sco) {
   const res = await fetch(`${BACKEND_URL}/board/update`, {
     method: "POST",
     headers: {
