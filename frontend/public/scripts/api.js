@@ -34,7 +34,9 @@ export async function fetchUser() {
     try {
       const user = await fetch(`${BACKEND_URL}/users/?userCookieId=${uci}`);
       if (user.status === 200) {
-        return user.json();
+        let userJson = await user.json();
+        dataManager.store.values.userName = userJson.userName;
+        return userJson;
       } else if (user.status === 404) {
         return NewUser(localStorage.getItem("userCookieId"));
       }
@@ -60,6 +62,28 @@ export async function fetchUserItem() {
     console.log("can't fetch");
   }
 }
+
+export async function fetchChangeUserName() {
+  try {
+    const uci = localStorage.getItem("userCookieId");
+    const newUserName = dataManager.store.values.userName;
+    const res = await fetch(`${BACKEND_URL}/users/nameChanger`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userCookieId: uci,
+        newUsername: newUserName
+      }),
+    }).then((response) => response.json());
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log("can't change name");
+  }
+}
+
 
 export async function fetchUserScore() {
   const userScore = await fetch(

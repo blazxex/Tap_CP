@@ -3,7 +3,7 @@ import { clickEvent, selectCardEvent, setupEvent } from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
 import { dataManager } from "./DataManager.js";
-import { fetchUserItem, upgradeItem } from "./api.js";
+import { fetchChangeUserName, fetchUserItem, upgradeItem } from "./api.js";
 import * as WebFontLoader from "../lib/WebFontLoader.js";
 
 export default class PlayerUI extends Phaser.Scene {
@@ -82,6 +82,7 @@ export default class PlayerUI extends Phaser.Scene {
           // TODO : change name api.
           dataManager.store.values.userName = name;
           this.userNameBtn.setText(name);
+          fetchChangeUserName();
       } else {
           alert("Please enter a valid name!");
       }
