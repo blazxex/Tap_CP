@@ -21,6 +21,9 @@ export default class BossUI extends Phaser.Scene {
 
     preload() {
         this.load.image('hp-bar', "./asset/healthbar.png");
+        this.load.image('KadaneText', "./asset/KadaneText.png");
+        this.load.image('DijktraText', "./asset/DijktraText.png");
+        this.load.image('Al-kwharizmiText', "./asset/Al-kwharizmiText.png");
         this.load.spritesheet("Al-kwharizmi", "./asset/Al-kwharizmi.png",{
             frameWidth:384,
             frameHeight:384
@@ -32,6 +35,14 @@ export default class BossUI extends Phaser.Scene {
         this.load.spritesheet("Eijktra", "./asset/Eijktra.png",{
             frameWidth:384,
             frameHeight:384
+        });
+        this.load.spritesheet("Grader", "./asset/Grader-sheet.png",{
+            frameWidth:408,
+            frameHeight:416
+        });
+        this.load.spritesheet("GraderText", "./asset/greaderText.png",{
+            frameWidth:384,
+            frameHeight:160
         });
     }
 
@@ -56,6 +67,18 @@ export default class BossUI extends Phaser.Scene {
         this.anims.create({
             key:"Eijktra",
             frames: this.anims.generateFrameNumbers("Eijktra"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.anims.create({
+            key:"Grader",
+            frames: this.anims.generateFrameNumbers("Grader"),
+            frameRate:4,
+            repeat:-1
+        })
+        this.anims.create({
+            key:"GraderText",
+            frames: this.anims.generateFrameNumbers("GraderText"),
             frameRate:4,
             repeat:-1
         })
@@ -102,8 +125,12 @@ export default class BossUI extends Phaser.Scene {
             if (this.bossText) {
                 this.bossText.destroy();
             }
-            this.bossText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS NAME: " + String(this.bossName)+"\nBOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
-            this.bossText.setPosition(WIDTH/4, HEIGHT/5);
+            if(this.bossName == "Grader"){
+                this.bossText = this.add.sprite(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
+                this.bossText.play(this.bossName+'Text');
+            }else{
+                this.bossText = this.add.image(WIDTH/2.8, HEIGHT/15,this.bossName+'Text').setScale(scale/2);
+            }
         }
     }
 
