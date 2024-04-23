@@ -1,7 +1,7 @@
 import { BACKEND_URL } from "./config.js";
 import { dataManager } from "./DataManager.js";
 import { setupEvent } from "./eventCenter.js";
-
+const abortController = new AbortController();
 async function NewUser(uci) {
   const userName = "user" + Math.floor(Math.random() * 100000) + 1;
   const newUserCookieId = uci;
@@ -75,7 +75,7 @@ export async function fetchChangeUserName() {
       },
       body: JSON.stringify({
         userCookieId: uci,
-        newUsername: newUserName
+        newUsername: newUserName,
       }),
     }).then((response) => response.json());
     console.log(res);
@@ -84,7 +84,6 @@ export async function fetchChangeUserName() {
     console.log("can't change name");
   }
 }
-
 
 export async function fetchUserScore() {
   const userScore = await fetch(
@@ -99,25 +98,25 @@ export async function fetchUserScore() {
   return userScore.score;
 }
 
-export async function sendUserScore(_score){
-  try{
+export async function sendUserScore(_score) {
+  try {
     const uci = localStorage.getItem("userCookieId");
-    const res = await fetch(`${BACKEND_URL}/board/update`,{
+    const res = await fetch(`${BACKEND_URL}/board/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userCookieId : uci,
-        score : _score,
+        userCookieId: uci,
+        score: _score,
       }),
     });
-    if  (res.ok) {
+    if (res.ok) {
       console.log("yo");
       return true;
     }
     return false;
-  }catch (e) {
+  } catch (e) {
     console.log("can't send score");
     return false;
   }
@@ -128,6 +127,10 @@ export async function attack(ind) {
     ind = 0;
   }
   try {
+    // Abort all previous requests
+    if (abortController) {
+      abortController.abort();
+    }
     const uci = localStorage.getItem("userCookieId");
     const boss = await fetchBoss();
     const res = await fetch(`${BACKEND_URL}/attack`, {
@@ -140,6 +143,7 @@ export async function attack(ind) {
         bossId: boss.bossId,
         index: ind,
       }),
+      signal: abortController.signal, // Pass the signal to the fetch request
     });
     if (res.ok) {
       return true;
