@@ -1,25 +1,44 @@
-export default class soundPlayer extends Phaser.Scene {
+import { WIDTH,HEIGHT } from "./constant.js";
+export default class soundPlayerUI extends Phaser.Scene {
     constructor() {
-        super(); // Call the constructor of the parent class
+        super({ key: 'soundPlayerUI',active:true }); // Call the constructor of the parent class
+  
     }
 
     // Preload assets
     preload() {
         // Load the song file
         this.load.audio('TWF', './asset/ThoseWhoFight.mp3');
+        console.log("create soundboard")
+        
     }
 
     // Create scene elements
     create() {
         // Add a button to start the music
-        const startButton = this.add.text(100, 100, 'Start Music', { fill: '#ffffff' });
-        startButton.setInteractive(); // Make the button interactive
+        const muteButton = this.add.text(WIDTH / 1.5, HEIGHT - 20, 'Mute Music', { fill: '#ffff00' });
+        muteButton.setInteractive(); // Make the button interactive
+
+        // Start playing the music
+        this.music = this.sound.add('TWF');
+        this.music.setVolume(.05);
+        this.music.play({ loop: true });
+        this.music.isMuted = false;
+        this.music.setMute(false);
 
         // Event handler for the button click
-        startButton.on('pointerdown', () => {
-            // Start the music when the button is clicked
-            this.music = this.sound.add('TWF');
-            this.music.play({ loop: true });
+        muteButton.on('pointerdown', () => {
+            // Toggle mute/unmute state of the music
+            // Change button text based on mute/unmute state
+            if (this.music.isMuted) {
+                this.music.isMuted = false;
+                muteButton.setText('mute Music');
+                this.music.setMute(false);
+            } else {
+                this.music.isMuted = true;
+                muteButton.setText('UnMute Music');
+                this.music.setMute(true);
+            }
         });
     }
 }

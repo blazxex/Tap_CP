@@ -2,7 +2,7 @@ import MainScene from "./Scene.js";
 import BossUI from "./BossUI.js";
 import PlayerUI from "./PlayerUI.js";
 import ScoreBoardUI from "./ScoreboardUI.js";
-import soundPlayer from "./soundPlayerUI.js";
+import soundPlayerUI from "./soundPlayerUI.js";
 import { WIDTH, HEIGHT } from "./constant.js";
 import { fetchUser } from "./api.js";
 
@@ -14,7 +14,7 @@ async function setup(){
     var bossUI = new BossUI();
     var playerUI = new PlayerUI();
     var scoreUI = new ScoreBoardUI();
-    var soundplayerUI = new soundPlayer();
+    var soundplayerUI = new soundPlayerUI();
 
     var config = {
         scale:{
