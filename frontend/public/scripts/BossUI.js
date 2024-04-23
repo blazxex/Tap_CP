@@ -23,7 +23,7 @@ export default class BossUI extends Phaser.Scene {
     preload() {
         this.load.image('hp-bar', "./asset/healthbar.png");
         this.load.image('KadaneText', "./asset/KadaneText.png");
-        this.load.image('DijktraText', "./asset/DijktraText.png");
+        this.load.image('EijktraText', "./asset/DijktraText.png");
         this.load.image('Al-kwharizmiText', "./asset/Al-kwharizmiText.png");
         this.load.spritesheet("Al-kwharizmi", "./asset/Al-kwharizmi.png",{
             frameWidth:384,
