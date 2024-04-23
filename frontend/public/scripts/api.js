@@ -112,7 +112,6 @@ export async function sendUserScore(_score) {
       }),
     });
     if (res.ok) {
-      console.log("yo");
       return true;
     }
     return false;
