@@ -66,30 +66,36 @@ export const getUser = async (req, res) => {
 };
 
 export const changeUserName = async (req, res) => {
-  const { userCookieId, newUsername} = req.body;
-  console.log(userCookieId, newUsername);
+  const { userCookieId, newUsername } = req.body;
+  
+  // Check if userCookieId is provided
   if (!userCookieId) {
-    return res.status(400).json({ message: "No userCookieId provided" });
+      return res.status(400).json({ message: "No userCookieId provided" });
   }
 
   try {
-    const user = await User.findOne({ userCookieId: userCookieId });
-    if (user) {
-      let update = {};
-      update[`user.userName`] = newUsername; // Dot notation for nested fields
+      // Find the user in the database
+      const user = await User.findOne({ userCookieId: userCookieId });
 
-      const updatedUser = await User.findOneAndUpdate(
-        { userCookieId },
-        { $set: update }, // Using $set to specify the fields to update
-        { new: true }
-      );
-    } else {
-      res.status(404).json({ message: "User not found" });
-    }
+      // If user found, update the username
+      if (user) {
+          // Update the user's username
+          user.userName = newUsername; // Assuming 'userName' is the correct field name
+          const updatedUser = await user.save();
+
+          // Send the updated user object in the response
+          res.status(200).json(updatedUser);
+      } else {
+          // If user not found, return 404 error
+          res.status(404).json({ message: "User not found" });
+      }
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving user", error: error });
+      // Handle any errors that occur during the process
+      console.error("Error retrieving or updating user:", error);
+      res.status(500).json({ message: "Error retrieving or updating user", error: error });
   }
 };
+
 
 export const deleteUser = async (req, res) => {
   try {
