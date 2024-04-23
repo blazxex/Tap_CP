@@ -76,13 +76,14 @@ export const changeUserName = async (req, res) => {
   try {
       // Find the user in the database
       const user = await User.findOne({ userCookieId: userCookieId });
-
+      const scoreb = await ScoreBoard.findOne({ userCookieId: userCookieId });
       // If user found, update the username
       if (user) {
           // Update the user's username
           user.userName = newUsername; // Assuming 'userName' is the correct field name
+          scoreb.userName = newUsername;
           const updatedUser = await user.save();
-
+          const updatedscoreb = await scoreb.save();
           // Send the updated user object in the response
           res.status(200).json(updatedUser);
       } else {
