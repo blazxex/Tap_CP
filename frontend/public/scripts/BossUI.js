@@ -49,6 +49,7 @@ export default class BossUI extends Phaser.Scene {
             frameWidth:384,
             frameHeight:160
         });
+        
     }
 
     async create() {
@@ -120,7 +121,6 @@ export default class BossUI extends Phaser.Scene {
         }, 500);
 
     }
-
     async updateBossData() {
         // Fetch the updated data of the boss
         const bossData = await fetchBoss();
@@ -133,7 +133,17 @@ export default class BossUI extends Phaser.Scene {
                 this.bossName = bossData.bossName;
                 this.bossWeakness = bossData.weakness;
                 dataManager.store.values.bossWeakness = this.bossWeakness;
-                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName).setScale(scale);
+                if (this.bossText) {
+                    this.bossText.destroy();
+                }
+                if(this.bossName == "Grader"){
+                    this.bossImage = this.add.sprite(WIDTH/2+100, OffsetFromOrigin(HEIGHT/2,.3),this.bossName).setScale(scale);
+                    this.bossText = this.add.sprite(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
+                    this.bossText.play(this.bossName+'Text');
+                }else{
+                    this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName).setScale(scale);
+                    this.bossText = this.add.image(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
+                }
                 this.bossImage.play(this.bossName);
                 const tween = this.add.tween({
                     targets: this.bossImage, // Corrected targets property
@@ -143,23 +153,26 @@ export default class BossUI extends Phaser.Scene {
                     ease: 'Quad.inOut',
                     repeat: -1
                 });
+                if(this.bossName == "Grader"){
+                    const tween = this.add.tween({
+                        targets: this.bossImage, // Corrected targets property
+                        x: WIDTH/2-200,
+                        duration: 1500,
+                        yoyo: true,
+                        ease: 'Quad.inOut',
+                        repeat: -1
+                    });
+                }
             }
             // Set the position of the text
             this.totalHp = bossData.totalHp;
             this.currentHp = bossData.currentHp;
             // Update the HP bar
             this.updateHpBar();
-            if (this.bossText) {
-                this.bossText.destroy();
-            }
-
-            if(this.bossName == "Grader"){
-                this.bossText = this.add.sprite(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
-                this.bossText.play(this.bossName+'Text');
-            }else{
-                this.bossText = this.add.image(this.bossTextPosX, this.bossTextPosY,this.bossName+'Text').setScale(.5*scale_m);
-            }
             this.weaknessText.setText("WEAKNESS: "+ String(this.weakness[this.bossWeakness]));
+            if(this.bossName == "Grader"){
+                this.bossImage.rotation += 0.2;
+            }
         }
     }
 

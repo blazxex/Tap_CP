@@ -12,9 +12,9 @@ async function setup(){
     var user = await fetchUser();
     var mainScene = new MainScene();
     var bossUI = new BossUI();
+    var soundplayerUI = new soundPlayerUI();
     var playerUI = new PlayerUI();
     var scoreUI = new ScoreBoardUI();
-    var soundplayerUI = new soundPlayerUI();
 
     var config = {
         scale:{
