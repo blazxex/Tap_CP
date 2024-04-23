@@ -20,6 +20,7 @@ async function setup(){
             autoCenter: Phaser.Scale.CENTER_BOTH,
         },
         type: Phaser.AUTO,
+        backgroundColor : "0x000000",
         width: WIDTH,
         height: HEIGHT,
         transparent: true,
@@ -30,12 +31,12 @@ async function setup(){
     };
 
     // const game = new Phaser.Game(config);
-    game = new Phaser.Game(config);
-    window.addEventListener('resize', resizeGame);
-    function resizeGame() {
-        // Resize the game to fit the new window dimensions
-        game.scale.resize(WIDTH, HEIGHT);
-    }   
+    const game = new Phaser.Game(config);
+    // window.addEventListener('resize', resizeGame);
+    // function resizeGame() {
+    //     // Resize the game to fit the new window dimensions
+    //     game.scale.resize(WIDTH, HEIGHT);
+    // }   
 }
 
 

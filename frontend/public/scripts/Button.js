@@ -13,14 +13,14 @@ export default class Button extends Phaser.GameObjects.Container{
         // level and dmage text.
        
         this.item = item;
-        this.lvTxt = scene.add.text(-70,-100, `lv: ${item.itemLevel}`).setFontSize(32).setColor('#ffff00');
-        this.dmgTxt = scene.add.text(0,-100, `dmg: ${item.attackPower}`).setFontSize(32).setColor('#ffff00');
+        this.lvTxt = scene.add.text(-70*scale*2,-100*scale*2, `lv: ${item.itemLevel}`).setFontSize(32*scale*2).setColor('#ffff00');
+        this.dmgTxt = scene.add.text(0*scale*2,-100*scale*2, `dmg: ${item.attackPower}`).setFontSize(32*scale*2).setColor('#ffff00');
         this.damge = item.attackPower;
 
         // upgrade btn
-        this.upgradeTxt = scene.add.text(-50,90, `lv:${item.itemLevel+1}      ${formatNumber(item.price)} sc.`).setFontSize(24).setColor('#000000');
+        this.upgradeTxt = scene.add.text(-50*scale*2,90*scale*2, `lv:${item.itemLevel+1}      ${formatNumber(item.price)} sc.`).setFontSize(24*scale*2).setColor('#000000');
         // this.upgradeBtn = scene.add.rectangle(0, 110, this.img.width*scale, 80*scale, 0xffffff);
-        this.upgradeBtn = scene.add.image(0, 110, "upgrade-button").setScale(scale);
+        this.upgradeBtn = scene.add.image(0, 110*scale*2, "upgrade-button").setScale(scale);
 
         this.add(this.img);
         this.add(this.lvTxt);

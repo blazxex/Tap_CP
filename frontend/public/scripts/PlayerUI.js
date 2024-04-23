@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT, OffsetFromOrigin, scale } from "./constant.js";
+import { WIDTH, HEIGHT, OffsetFromOrigin, scale, scaleX, scale_m } from "./constant.js";
 import { clickEvent, selectCardEvent, setupEvent } from "./eventCenter.js";
 import Button from "./Button.js";
 import Scoreboard from "./Scoreboard.js";
@@ -67,7 +67,7 @@ export default class PlayerUI extends Phaser.Scene {
       WIDTH / 2,
       HEIGHT-150*scale,
       "player-IDLE"
-    );
+    ).setScale(scale);
     this.anims.create({
       key: "player-Idle",
       frames: this.anims.generateFrameNumbers("player-IDLE"),
@@ -91,25 +91,28 @@ export default class PlayerUI extends Phaser.Scene {
     //* Level text and Score text
     this.pointText = this.add
       .text(
-        WIDTH+((WIDTH>HEIGHT)? -650:-250),
-        HEIGHT+((WIDTH>HEIGHT)? -350:-150),
+        WIDTH+((WIDTH>HEIGHT)? -650*scale:-250),
+        HEIGHT+((WIDTH>HEIGHT)? -350*scale:-150),
         `Score : ${formatNumber(dataManager.store.values.userScore)}`
       )
       .setFontFamily("Arial")
       .setFontSize(64)
       .setColor("#ffff00");
 
-
+    let startOffsetX=300*scale;
+    let diffX=150*scaleX;
     let offsetX = [0,0,0];
     let offsetY = [0,0,0];
     if(WIDTH>HEIGHT){
-      offsetX = [-600,-450,-300];
-      offsetY = [-500,-500,-500];
+      offsetX = [-(startOffsetX+(2*diffX)),-(startOffsetX+diffX),-(startOffsetX)];
+      offsetY = [-500*scale,-500*scale,-500*scale];
     }
     else{
       offsetX = [-100,-100,-100];
       offsetY = [-800,-550,-300];
     }
+
+    let cardScale = (WIDTH>HEIGHT) ? .5*scale:.5;
 
     const item = await fetchUserItem();
     //* Card button
@@ -117,7 +120,7 @@ export default class PlayerUI extends Phaser.Scene {
       this,
       WIDTH+offsetX[0],
       HEIGHT+offsetY[0],
-      0.5,
+      cardScale,
       "cppIcon",
       "card01",
       item.item.item_0,
@@ -134,7 +137,7 @@ export default class PlayerUI extends Phaser.Scene {
       this,
       WIDTH+offsetX[1],
       HEIGHT+offsetY[1],
-      0.5,
+      cardScale,
       "pythonIcon",
       "card02",
       item.item.item_1,
@@ -151,7 +154,7 @@ export default class PlayerUI extends Phaser.Scene {
       this,
       WIDTH+offsetX[2],
       HEIGHT+offsetY[2],
-      0.5,
+      cardScale,
       "javaIcon",
       "card03",
       item.item.item_2,

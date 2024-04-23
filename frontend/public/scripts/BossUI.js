@@ -5,6 +5,7 @@ import { clickEvent } from "./eventCenter.js";
 export default class BossUI extends Phaser.Scene {
     constructor() {
         super({ key: 'BossUI', active: true });
+        this.scale = (WIDTH > HEIGHT)?scale:1;
         this.bossname = null;
         this.totalHp = null;
         this.currentHp = null;
