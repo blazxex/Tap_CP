@@ -68,6 +68,25 @@ export default class PlayerUI extends Phaser.Scene {
       HEIGHT-150*scale,
       "player-IDLE"
     ).setScale(scale);
+
+    this.userNameBtn = this.add.text(WIDTH/2, HEIGHT-270*scale, dataManager.store.values.userName).setOrigin(0.5, 0.5).setInteractive().setColor("#ffff00").setFontSize(32);
+    this.userNameBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER,()=>{
+      this.userNameBtn.setColor("#e3ba24");
+    });
+    this.userNameBtn.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT,()=>{
+      this.userNameBtn.setColor("#ffff00");
+    });
+    this.userNameBtn.on('pointerup', () => {
+      const name = prompt("Please enter your name:", "");
+      if (name != null && name.trim() !== "") {
+          // TODO : change name api.
+          dataManager.store.values.userName = name;
+          this.userNameBtn.setText(name);
+      } else {
+          alert("Please enter a valid name!");
+      }
+    });
+
     this.anims.create({
       key: "player-Idle",
       frames: this.anims.generateFrameNumbers("player-IDLE"),
@@ -185,6 +204,7 @@ export default class PlayerUI extends Phaser.Scene {
       },
       active: () => {
         this.pointText.setFontFamily("Kenny");
+        this.userNameBtn.setFontFamily("Kenny");
       },
     });
 

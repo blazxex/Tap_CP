@@ -1,8 +1,9 @@
 import { BACKEND_URL } from "./config.js";
+import { dataManager } from "./DataManager.js";
 import { setupEvent } from "./eventCenter.js";
 
 async function NewUser(uci) {
-  const userName = "user" + Math.floor(Math.random() * 100000) + 1;
+  const userName = dataManager.store.values.userName;
   const newUserCookieId = uci;
   const lastActivate = new Date().toISOString();
   console.log(userName, newUserCookieId, lastActivate);
