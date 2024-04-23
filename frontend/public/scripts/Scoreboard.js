@@ -1,5 +1,7 @@
 import * as wfl from "../lib/WebFontLoader.js" 
 import { HEIGHT, scale, WIDTH } from "./constant.js";
+import { dataManager } from "./DataManager.js";
+
 export default class Scoreboard extends Phaser.GameObjects.Container {
     constructor(scene, x, y, scores) {
         super(scene, x, y);
@@ -51,12 +53,16 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         });
     }
 
-    updateScores(newScores) {
+    updateScores(newScores,userCookieId) {
         // Update the scores and update Text objects
         this.scores = newScores;
         this.scoreTexts.forEach((text, index) => {
             if (this.scores[index]) {
-                text.setText(`${this.scores[index].name}: ${this.scores[index].value}`);
+                if(userCookieId == this.scores[index].userCookieId){
+                    text.setText(`${dataManager.store.values.userName}: ${dataManager.store.values.userScore}`);
+                }else{
+                    text.setText(`${this.scores[index].name}: ${this.scores[index].value}`);
+                }
             } else {
                 text.setText('');
             }

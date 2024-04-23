@@ -38,11 +38,12 @@ export default class ScoreBoardUI extends Phaser.Scene{
                 // Create an array of score objects for the Scoreboard component
                 const updatedScores = updatedTop5.map((score, index) => ({
                     name: score.userName, // Assuming the userName property contains the player's name
-                    value: score.score
+                    value: score.score,
+                    cookieid: score.userCookieId
                 }));
                 
                 // Update the scoreboard with the updated scores
-                this.scoreboard.updateScores(updatedScores);
+                this.scoreboard.updateScores(updatedScores,localStorage.getItem("userCookieId"));
             }, 500);
         } catch (error) {
             //console.error('Error fetching top scores:', error);
