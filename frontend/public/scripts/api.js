@@ -127,10 +127,6 @@ export async function attack(ind) {
     ind = 0;
   }
   try {
-    // Abort all previous requests
-    if (abortController) {
-      abortController.abort();
-    }
     const uci = localStorage.getItem("userCookieId");
     const boss = await fetchBoss();
     const res = await fetch(`${BACKEND_URL}/attack`, {
@@ -143,7 +139,6 @@ export async function attack(ind) {
         bossId: boss.bossId,
         index: ind,
       }),
-      signal: abortController.signal, // Pass the signal to the fetch request
     });
     if (res.ok) {
       return true;
