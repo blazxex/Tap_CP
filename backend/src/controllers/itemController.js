@@ -1,11 +1,4 @@
 import Item from "../models/itemModel.js";
-
-const attackPowerMap = new Map([
-  ["Initial Item_1", 1],
-  ["Initial Item_2", 20],
-  ["Initial Item_3", 25],
-  ["Axe_2", 30],
-]);
 //i am cuming
 // Function to get attackPower from the map
 function getAttackPower(itemName, itemLevel) {
@@ -23,8 +16,6 @@ export const getItems = async (req, res) => {
 
 export const updateItem = async (req, res) => {
   const { userCookieId, index } = req.body;
-  let itemName = "Initial Item_" + (index + 1); // Assuming item names are styled as "Initial Item_1", etc.
-
   try {
     const itemField = `item.item_${index}`; // Correct path to the item fields
     const item = await Item.findOne({ userCookieId });
@@ -35,9 +26,9 @@ export const updateItem = async (req, res) => {
 
     const currentLevel = item.item[`item_${index}`].itemLevel;
     const itemLevel = currentLevel + 1;
-    const attackPower = (item.item[`item_${index}`].attackPower)+1;
-    const updated_price = (itemLevel**2)*1000;
-    
+    const attackPower = (item.item[`item_${index}`].attackPower) + 1;
+    const updated_price = (itemLevel ** 2) * 1000;
+
     let update = {};
     update[`${itemField}.attackPower`] = attackPower; // Dot notation for nested fields
     update[`${itemField}.itemLevel`] = itemLevel; // Dot notation for nested fields
@@ -55,8 +46,6 @@ export const updateItem = async (req, res) => {
       res.status(404).json({ message: "Failed to update item" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error processing your request", error: error.message });
+    res.status(500).json({ message: "Error processing your request", error: error.message });
   }
 };

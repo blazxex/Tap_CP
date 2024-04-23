@@ -20,9 +20,9 @@ export const createUser = async (req, res) => {
     const newItem = new Item({
       userCookieId: newUser.userCookieId,
       item: {
-        item_0: { itemLevel: 1, attackPower: 1, price : 2000},
-        item_1: { itemLevel: 1, attackPower: 1, price : 2000},
-        item_2: { itemLevel: 1, attackPower: 1, price : 2000},
+        item_0: { itemLevel: 1, attackPower: 1, price: 2000 },
+        item_1: { itemLevel: 1, attackPower: 1, price: 2000 },
+        item_2: { itemLevel: 1, attackPower: 1, price: 2000 },
       },
     });
     await newItem.save();
@@ -67,33 +67,33 @@ export const getUser = async (req, res) => {
 
 export const changeUserName = async (req, res) => {
   const { userCookieId, newUsername } = req.body;
-  
+
   // Check if userCookieId is provided
   if (!userCookieId) {
-      return res.status(400).json({ message: "No userCookieId provided" });
+    return res.status(400).json({ message: "No userCookieId provided" });
   }
 
   try {
-      // Find the user in the database
-      const user = await User.findOne({ userCookieId: userCookieId });
-      const scoreb = await ScoreBoard.findOne({ userCookieId: userCookieId });
-      // If user found, update the username
-      if (user) {
-          // Update the user's username
-          user.userName = newUsername; // Assuming 'userName' is the correct field name
-          scoreb.userName = newUsername;
-          const updatedUser = await user.save();
-          const updatedscoreb = await scoreb.save();
-          // Send the updated user object in the response
-          res.status(200).json(updatedUser);
-      } else {
-          // If user not found, return 404 error
-          res.status(404).json({ message: "User not found" });
-      }
+    // Find the user in the database
+    const user = await User.findOne({ userCookieId: userCookieId });
+    const scoreb = await ScoreBoard.findOne({ userCookieId: userCookieId });
+    // If user found, update the username
+    if (user) {
+      // Update the user's username
+      user.userName = newUsername; // Assuming 'userName' is the correct field name
+      scoreb.userName = newUsername;
+      const updatedUser = await user.save();
+      const updatedscoreb = await scoreb.save();
+      // Send the updated user object in the response
+      res.status(200).json(updatedUser, updatedscoreb);
+    } else {
+      // If user not found, return 404 error
+      res.status(404).json({ message: "User not found" });
+    }
   } catch (error) {
-      // Handle any errors that occur during the process
-      console.error("Error retrieving or updating user:", error);
-      res.status(500).json({ message: "Error retrieving or updating user", error: error });
+    // Handle any errors that occur during the process
+    console.error("Error retrieving or updating user:", error);
+    res.status(500).json({ message: "Error retrieving or updating user", error: error });
   }
 };
 

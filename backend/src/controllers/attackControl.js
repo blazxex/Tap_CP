@@ -50,7 +50,7 @@ export const userAttack = async (req, res) => {
 
       const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
         { userCookieId: userCookieId },
-        { $inc: { score: damage} },
+        { $inc: { score: damage } },
         { new: true, upsert: true }
       );
 
@@ -63,20 +63,20 @@ export const userAttack = async (req, res) => {
       if (!updatedScoreBoard) {
         return res.status(404).json({ error: "Score update failed" });
       }
-      
+
       res.status(200).json({
         message: "Attack successful",
         user: updatedUser,
         score: updatedScoreBoard.score,
       });
     }
-    else{
+    else {
       const updatedBossPromise = Boss.findByIdAndUpdate(boss._id, boss);
 
       // Update the user's score
       const updatedScoreBoardPromise = ScoreBoard.findOneAndUpdate(
         { userCookieId: userCookieId },
-        { $inc: { score: damage} },
+        { $inc: { score: damage } },
         { new: true, upsert: true }
       );
 
