@@ -160,9 +160,6 @@ export default class BossUI extends Phaser.Scene {
             // Update the HP bar
             this.updateHpBar();
             this.weaknessText.setText("WEAKNESS: "+ String(this.weakness[this.bossWeakness]));
-            if(this.bossName == "Grader"){
-                this.bossImage.rotation += 0.2;
-            }
         }
     }
 
