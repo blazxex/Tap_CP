@@ -98,6 +98,29 @@ export async function fetchUserScore() {
   return userScore.score;
 }
 
+export async function sendUserScore(score){
+  try{
+    const uci = localStorage.getItem("userCookieId");
+    const res = await fetch('${BACKEND_URL}/board/update',{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userCookieId : uci,
+        newscore : score,
+      }),
+    });
+    if  (res.ok) {
+      return true;
+    }
+    return false;
+  }catch (e) {
+    console.log("can't send score");
+    return false;
+  }
+}
+
 export async function attack(ind) {
   if (ind === null) {
     ind = 0;

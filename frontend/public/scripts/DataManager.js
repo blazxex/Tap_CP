@@ -1,5 +1,5 @@
 import { fetchUserScore } from "./api.js";
-
+import { sendUserScore  } from "./api.js";
 class DataManager extends Phaser.Events.EventEmitter{
     store;
     constructor(){
@@ -16,8 +16,7 @@ class DataManager extends Phaser.Events.EventEmitter{
         const userScore = await fetchUserScore();
         this.store.set("userScore",userScore) 
         setInterval(async () => {
-            let score = await fetchUserScore();
-            this.store.values.userScore = score;
+            let score = await sendUserScore(this.store.values.userScore);
         }, 500);
     }
 }
