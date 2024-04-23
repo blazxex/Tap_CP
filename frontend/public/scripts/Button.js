@@ -62,6 +62,9 @@ export default class Button extends Phaser.GameObjects.Container{
                 this.lvTxt.setText(`lv: ${it.itemLevel}`);
                 this.dmgTxt.setText(`atk: ${it.attackPower}`);
                 this.upgradeTxt.setText(`lv: ${it.itemLevel+1}  ${it.price} sc.`)
+                if(dataManager.store.values.userLang == ind){
+                    dataManager.store.values.userDamge = this.damage;
+                }
             }
             else{
                 this.unupgradeSound.play();

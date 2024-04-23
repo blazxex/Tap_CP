@@ -148,7 +148,6 @@ export default class PlayerUI extends Phaser.Scene {
     );
     this.add.existing(card1);
     card1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      dataManager.store.values.userDamage = card1.damge;
       this.selectCardSound.play();
       this.selectCard(card1, 0);
     });
@@ -165,7 +164,7 @@ export default class PlayerUI extends Phaser.Scene {
     );
     this.add.existing(card2);
     card2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      dataManager.store.values.userDamage = card2.damge;
+
       this.selectCardSound.play();
       this.selectCard(card2, 1);
     });
@@ -182,7 +181,7 @@ export default class PlayerUI extends Phaser.Scene {
     );
     this.add.existing(card3);
     card3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      dataManager.store.values.userDamage = card2.damge;
+
       this.selectCardSound.play();
       this.selectCard(card3, 2);
     });
@@ -241,6 +240,8 @@ export default class PlayerUI extends Phaser.Scene {
   }
 
   selectCard(clickedCard, ind) {
+    dataManager.store.values.userDamage = clickedCard.damge;
+    dataManager.store.values.userLang = ind;
     // If another card is already selected, disable it
     if (this.selectedCard !== null && this.selectedCard !== clickedCard) {
       this.selectedCard.whiteFill.setAlpha(0);

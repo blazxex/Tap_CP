@@ -1,6 +1,7 @@
 import { WIDTH, HEIGHT,OffsetFromOrigin, scale } from "./constant.js";
 import { fetchBoss } from "./api.js";
 import { clickEvent } from "./eventCenter.js";
+import { dataManager } from "./DataManager.js";
 
 export default class BossUI extends Phaser.Scene {
     constructor() {
@@ -81,6 +82,7 @@ export default class BossUI extends Phaser.Scene {
                 this.anims.remove(this.bossName); // Remove the animation
                 this.bossName = bossData.bossName;
                 this.bossWeakness = bossData.weakness;
+                dataManager.store.values.bossWeakness = this.bossWeakness;
                 this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName);
                 this.bossImage.play(this.bossName);
                 const tween = this.add.tween({

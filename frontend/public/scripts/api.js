@@ -3,7 +3,7 @@ import { dataManager } from "./DataManager.js";
 import { setupEvent } from "./eventCenter.js";
 
 async function NewUser(uci) {
-  const userName = dataManager.store.values.userName;
+  const userName = "user" + Math.floor(Math.random() * 100000) + 1;
   const newUserCookieId = uci;
   const lastActivate = new Date().toISOString();
   console.log(userName, newUserCookieId, lastActivate);
@@ -22,6 +22,7 @@ async function NewUser(uci) {
       await postData(`${BACKEND_URL}/users/`, newUser);
     });
   localStorage.setItem("userCookieId", newUserCookieId);
+  dataManager.store.values.userName = userName;
   console.log(newUser);
   return newUser;
 }
