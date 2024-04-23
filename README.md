@@ -36,13 +36,6 @@ To run Tap_CP locally, follow these steps:
 5. **Accessing the Application**:
    - Once both frontend and backend servers are running, you can access the application in your web browser using the specified URL (e.g., `http://localhost:8080`).
 
-### Contributing
-We welcome contributions from the community. If you'd like to contribute to Tap_CP, please follow these steps:
-- Fork the repository
-- Create your feature branch (`git checkout -b feature/YourFeature`)
-- Commit your changes (`git commit -am 'Add some feature'`)
-- Push to the branch (`git push origin feature/YourFeature`)
-- Create a new Pull Request
 
 ### License
 This project is licensed under the [MIT License](LICENSE).
