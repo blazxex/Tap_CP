@@ -6,7 +6,7 @@ export default class BossUI extends Phaser.Scene {
     constructor() {
         super({ key: 'BossUI', active: true });
         this.scale = (WIDTH > HEIGHT)?scale:1;
-        this.bossname = null;
+        this.bossName = null;
         this.totalHp = null;
         this.currentHp = null;
         this.hpBarFill = null;
@@ -15,6 +15,7 @@ export default class BossUI extends Phaser.Scene {
         this.hpBarHeight = 30; // Height of the HP bar
         this.hpBarX = WIDTH / 2 - this.hpBarWidth / 2; // X coordinate of the HP bar
         this.hpBarY = 120; // Y coordinate of the HP bar (positioned above the boss image)
+        this.weakness = ['C++', 'Python', 'Java'];
     }
 
     preload() {
@@ -62,15 +63,6 @@ export default class BossUI extends Phaser.Scene {
         // Create HP bar
         this.createHpBar();
 
-        const tween = this.add.tween({
-            targets: this.bossImage, // Corrected targets property
-            y: HEIGHT/2+10,
-            duration: 3000,
-            yoyo: true,
-            ease: 'Quad.inOut',
-            repeat: -1
-        });
-
         // Update boss data and move boss every 0.5 seconds
         setInterval(async () => {
             await this.updateBossData();
@@ -81,20 +73,35 @@ export default class BossUI extends Phaser.Scene {
     async updateBossData() {
         // Fetch the updated data of the boss
         const bossData = await fetchBoss();
-        //console.log(this.bossname)
+        //console.log(this.bossName)
         if (bossData !== undefined) {
             // If bossData is defined, update UI with boss data
-            if(this.bossname != null && this.bossname != bossData.bossname){
+            if(this.bossName != bossData.bossName){
                 this.bossImage.destroy();
-                this.anims.remove(this.bossname); // Remove the animation
-                this.bossname = bossData.bossname;
-                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossname);
-                this.bossImage.play(bossname);
+                this.anims.remove(this.bossName); // Remove the animation
+                this.bossName = bossData.bossName;
+                this.bossWeakness = bossData.weakness;
+                this.bossImage = this.add.sprite(WIDTH/2+10, OffsetFromOrigin(HEIGHT/2,.3),this.bossName);
+                this.bossImage.play(this.bossName);
+                const tween = this.add.tween({
+                    targets: this.bossImage, // Corrected targets property
+                    y: HEIGHT/2+10,
+                    duration: 3000,
+                    yoyo: true,
+                    ease: 'Quad.inOut',
+                    repeat: -1
+                });
             }
+            // Set the position of the text
             this.totalHp = bossData.totalHp;
             this.currentHp = bossData.currentHp;
             // Update the HP bar
             this.updateHpBar();
+            if (this.bossText) {
+                this.bossText.destroy();
+            }
+            this.bossText = this.add.text(WIDTH/5, HEIGHT/5, "BOSS NAME: " + String(this.bossName)+"\nBOSS WEAKNESS: "+ String(this.weakness[this.bossWeakness]), { fontSize: HEIGHT/50, color: '#ffff00' });
+            this.bossText.setPosition(WIDTH/4, HEIGHT/5);
         }
     }
 
