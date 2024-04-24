@@ -12,7 +12,7 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
         this.createScoreTexts();
 
         // Add score Text objects to the container
-        this.scoreTexts.forEach(text => this.add(text));
+        this.scoreTexts.forEach(text => this.add(text).setFontFamily('Kenny'));
 
         // Add the container to the scene
         scene.add.existing(this);
@@ -27,7 +27,7 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
                 this.scoreTexts.push(text);
             } else {
                 // Create blank box
-                const text = this.scene.add.text(10, 0, '', {fontSize:30*scale , color: '#ffffff' });
+                const text = this.scene.add.text(10, 0, '', {fontSize:30*scale , color: '#ffffff' }).setFontFamily('Kenny');
                 text.setBackgroundColor('#ffff00'); // Yellow background
                 text.setStroke('#ff8c00', 4); // Orange outline
                 this.scoreTexts.push(text);
