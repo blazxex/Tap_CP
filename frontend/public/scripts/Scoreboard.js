@@ -40,16 +40,6 @@ export default class Scoreboard extends Phaser.GameObjects.Container {
             text.y = yOffset;
             yOffset += text.height + 10; // Adjust spacing between Text objects
         });
-        wfl.default.load({
-            custom:{
-                families: ['Kenny'],
-            },
-            active : () => {
-                this.scoreTexts.forEach(st => {
-                    st.setFontFamily('Kenny');
-                });
-            }
-        });
     }
 
     updateScores(newScores,userCookieId) {
